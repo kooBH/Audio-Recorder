@@ -1,6 +1,6 @@
 # Command Line Interface Recording Programm  
 
-## How to Use.  
+## How to Use  
 
 + Windows  
 1. Open Command Prompt or Power shell,  
@@ -15,7 +15,8 @@ You need to check
 ```   
   
 2. open ```config.json```  
-and set parameters as of the device you want to use.  
+and set parameters as of the device you want to use.    
+If there is ```value``` item in a parameter, modify ```value``` item, not ```options```  
   
 3. Record  
 ```
