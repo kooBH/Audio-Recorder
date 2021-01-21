@@ -59,7 +59,7 @@ public:
   inline void Stop();
 };
 
-Recorder::Recorder(std::string path, int channels_,int device,int samplerate_, double scale_){
+Recorder::Recorder(std::string path, int channels_,int device_,int samplerate_, double scale_){
   channels = channels_;
   samplerate = samplerate_;
   // set input_size larget for stable processing
@@ -68,6 +68,7 @@ Recorder::Recorder(std::string path, int channels_,int device,int samplerate_, d
   frame_size = 512;
   scale = scale_;
   file_path = path;
+  device = device_;
 
   /* General */
   input = nullptr;
@@ -79,6 +80,8 @@ Recorder::Recorder(std::string path, int channels_,int device,int samplerate_, d
   /* PROCESS */
   output = new WAV(channels,samplerate);
   raw = new short[channels*shift_size];
+
+  OpenDevice(device);
 }
 
 Recorder::~Recorder() {

@@ -32,9 +32,9 @@ int main(){
   ifs.close();
 
   device     = j["device"].get<int>();
-  channels   = j["channels"].get<int>();
-  samplerate = j["samplerate"].get<int>();
-  shift_size = j["shift_size"].get<int>();
+  channels   = j["channels"]["value"].get<int>();
+  samplerate = j["samplerate"]["value"].get<int>();
+  shift_size = j["shift_size"]["value"].get<int>();
   scale      = j["scale"].get<double>();
 
   recorder = new Recorder("../", channels, device, samplerate, scale);
@@ -52,7 +52,7 @@ void KeyboardInput() {
     //F4
     if (GetKeyState(VK_F4) < 0 && !fF4) {
       fF4 = true;
-      recorder->OpenDevice();
+      recorder->OpenDevice(0);
       //std::cout << "F4 pressed" << std::endl;
     }
     if (GetKeyState(VK_F4) >= 0 && fF4) {

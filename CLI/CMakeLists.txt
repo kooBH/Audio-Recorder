@@ -27,7 +27,7 @@ list(APPEND COMPILE_OPTION
 else()
 	list(APPEND COMPILE_OPTION
 		# /O2 - fastest code in the majority of cases
-		/O2
+		#/O2
 	)
 endif()
 

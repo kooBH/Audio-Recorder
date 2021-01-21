@@ -1,7 +1,7 @@
 {
-	"device": 0
+	"device": 1
 	,
-	"channles": {
+	"channels": {
 		"options": [
 			1,
 			2,
@@ -20,14 +20,14 @@
 			15,
 			16
 		],
-		"value": 1
+		"value": 2
 	},
 	"samplerate": {
 		"options": [
 			16000,
 			48000
 		],
-		"value": 16000
+		"value": 48000
 	},
 	"shift_size": {
 		"options": [
