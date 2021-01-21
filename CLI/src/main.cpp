@@ -37,7 +37,7 @@ int main(){
   shift_size = j["shift_size"]["value"].get<int>();
   scale      = j["scale"].get<double>();
 
-  recorder = new Recorder("../", channels, device, samplerate, scale);
+  recorder = new Recorder(".", channels, device, samplerate, scale);
 
   recorder->Process();
 		
