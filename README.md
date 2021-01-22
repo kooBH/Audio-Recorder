@@ -1,6 +1,6 @@
 # Audio-Recorder
 
-## State  
+## Status  
 GUI : WIP  
 CLI : done  
   
