@@ -1,4 +1,10 @@
-# Audio-Recorder    
+# Audio-Recorder
+
+## State  
+GUI : WIP  
+CLI : done  
+  
+## Clone   
   
 Need to clone recursively.  
 ```
@@ -22,7 +28,9 @@ then, if you are in Ubuntu, there will be ```Makefile``` or if you are in Window
 + ubuntu 20.04 LTS : 64-bit   
 + Windows 10 : 64-bit  
 
-## Notice   
-[Qt6Framework](https://www.qt.io/) : for GUI  
-[json](https://github.com/nlohmann/json) : for configuration management  
-[RtAudio](https://www.music.mcgill.ca/~gary/rtaudio/) : for recording   
+## Notice
+|NAME|LICENSE|USEAGE|
+|---|---|---|
+[Qt6Framework](https://www.qt.io)|[LGPL](https://www.qt.io/terms-conditions/)|GUI, text encoding
+[json](https://github.com/nlohmann/json)|[MIT](https://github.com/nlohmann/json/blob/develop/LICENSE.MIT)| configuration management  
+[RtAudio](https://www.music.mcgill.ca/~gary/rtaudio/) |[license](https://www.music.mcgill.ca/~gary/rtaudio/license.html)| recording   
