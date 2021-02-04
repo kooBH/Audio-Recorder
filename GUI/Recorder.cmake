@@ -23,6 +23,10 @@ list(APPEND SRC_Qt
 	${CMAKE_CURRENT_LIST_DIR}/src/Config.h
 	)
 	
+list(APPEND INCL
+	${CMAKE_CURRENT_LIST_DIR}/src
+)
+	
 ## PATH
 list(APPEND COMPILE_OPTION
   -D_CONFIG_JSON="../config.json"
