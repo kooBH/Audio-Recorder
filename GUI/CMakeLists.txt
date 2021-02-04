@@ -27,15 +27,15 @@ endmacro()
 	## sources to be processed by MOC
 	list(APPEND SRC_Qt_MOC
 		src/KRecordPlot.h
-		src/KRecorder.h
-	)
+		src/KRecorderControl.h
+	)	
 	
 	## sources without MetaObject 
 	list(APPEND SRC_Qt
 		src/KInput.h
-		
-		src/KRecorder.cpp
-		
+		src/KParam.h
+		src/KRecorder.h
+		src/KRecorderControl.cpp
 		src/KRecordPlot.cpp
 		)
 	
@@ -46,7 +46,7 @@ endmacro()
 		LIST(GET parse_i_3 0 fisrt_element)
 		if(MSVC)
 			execute_process(
-			COMMAND moc ../${i} -o ../tmp/moc_${fisrt_element}.cpp
+			COMMAND moc ../${i} -o tmp/moc_${fisrt_element}.cpp
 			WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/bin  
 			 )
 		endif()
@@ -56,7 +56,6 @@ endmacro()
 		)
 	endforeach()
 
-#list(APPEND COMPILE_OPTION -D_MOC_)
 ################
 
 if(NOT MSVC)
@@ -75,6 +74,8 @@ else()
 		/MP
 	)
 endif()
+
+# LIBRARIES
 
 include(${PATH_LIB}/RtAudioWrapper/RtAudio.cmake)
 include(${PATH_LIB}/RtAudioWrapper/Libsamplerate.cmake)
@@ -97,6 +98,8 @@ list(APPEND INCL
 	${PATH_LIB}/WAV
 	${PATH_LIB}/json
 	
+	lib/serial
+	
 	# QtFramework
 	bin/include
 	bin/include/QtCore
@@ -105,6 +108,11 @@ list(APPEND INCL
 	bin/include/QtWidgets
 	bin/include/QtOpenGL
 	bin/include/QtOpenGLWidgets
+)
+
+## PATH
+list(APPEND COMPILE_OPTION
+  -D_CONFIG_JSON="../config.json"
 )
 
 ## QtFramework ##

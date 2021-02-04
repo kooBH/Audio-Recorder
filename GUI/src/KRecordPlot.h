@@ -1,50 +1,55 @@
-#ifndef _H_KRECORDPLOT_
-#define _H_KRECORDPLOT_
+
+#ifndef _H_KRECORDPLOTREC_
+#define _H_KRECORDPLOTREC_
+
 
 #include <QOpenGLWidget>
-#include "verdigris/wobjectdefs.h"
+#include <QPen>
 
 #include <deque>
-#include "util/Config.h"
-
-class KRecordPlot : public QOpenGLWidget
+#include "Config.h"
+//#include "KRecordPlot.h"
+class KRecordPlotRec : public QOpenGLWidget
 {
-	//Q_OBJECT
-	W_OBJECT(KRecordPlot)
+	Q_OBJECT
 
-	ConfigParam s;
+  //default 32768
+  const int scale_plot = 2000;
+
+	int BAR_MAX_POINTS = 120;
+	int BAR_MIN_POINTS = 3;
+	int nPoints;
+	int mBarWidth;
+	int nBatchCount;
+	int mRandom;
+	int density = 100;
+	int gap = 2;
+	int cnt = 0;
+	std::vector<float> mSrcY;
+	std::vector<float> mDestY;
+	//float* mSrcY;
+	//float* mDestY;
+	int mMaxBatchCount = 10;
+
+  int shift_size;
+
 public:
-	KRecordPlot(QWidget* parent=nullptr);
-	~KRecordPlot();
-	int spectrWidth = 500;
+	QPen middleLine;
+	KRecordPlotRec(QWidget* parent=nullptr);
+	~KRecordPlotRec();
+	void DrawPlot(short* raw);
+
+	int spectrWidth = 400;
 	const int spectrHeight = 100;
 	long writtensize = 0;
-	//short* buffer = (short*)calloc(1,sizeof(short));
-	std::deque<short> buffer;
-	std::vector<std::vector<short> > peak_max_buffer;
-	std::vector<std::vector<short> > peak_min_buffer;
-	void DrawPlot(short* temp,int len);
-  void DrawPlot(double** raw);
-
-  int cnt=0;
-
-public slots:
-	//void DrawPlot(short* temp,int len);
-  //W_SLOT(DrawPlot,(short*,int))
-protected:
+	void setDensity(float _density);
 	void paintEvent(QPaintEvent* event) override;
 	void resizeEvent(QResizeEvent* e) override;
-	short getDataForCoordinates(short x);
-	float rms(float* data, int len);
-	short getDataForCoordinatesWithRMS(float* data, int len);
-	void drawPeakPlot(short* temp, int len);
-  void drawPeakPlot(double** raw);
-  double readOneFromRaw(double** raw, int channel, int idx);
-  void addToDrawBuffer(int channel, int max, int min);
-  void Reload();
+	std::deque<short> buffer;
+	std::vector<short> bytes;
+	std::vector<std::vector<short> > peak_min_buffer;
 
-  float* buffer_float;
-  int len_buffer;
+  void ResetShiftSize();
 };
 
 #endif

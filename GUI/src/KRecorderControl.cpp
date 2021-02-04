@@ -1,10 +1,6 @@
+#include "KRecorderControl.h"
 
-#include "KRecorder.h"
-
-#include "verdigris/wobjectimpl.h"
-W_OBJECT_IMPL(KRecorder)
-
-  KRecorder::KRecorder() :KWidget(),
+  KRecorderControl::KRecorderControl() :QWidget(),
   label_ch_plot("1"),
   btn_ch_plot_next("next channel"),
   btn_save_path("Set Output Path"),
@@ -43,7 +39,7 @@ W_OBJECT_IMPL(KRecorder)
     //btn_init.setFont(font);
     //btn_record.setFont(font);
 #if _WIN32
-    thread_key = new std::thread(&KRecorder::KeyboardInput, this);
+    thread_key = new std::thread(&KRecorderControl::KeyboardInput, this);
 #endif
 
     /* TrayIcon */
@@ -148,8 +144,6 @@ W_OBJECT_IMPL(KRecorder)
         LE_scale.setText("1.0");
         scale = 1.0;
       }
-      LE_scale.setStyleSheet(_BG_COLOR_3_);
-
       layout_scale_ch.addWidget(&label_scale, 0, 0, 1, 1);
       layout_scale_ch.addWidget(&LE_scale, 0, 1, 1, 1);
 
@@ -171,11 +165,6 @@ W_OBJECT_IMPL(KRecorder)
 
       // etc
       layout_recorder.setAlignment(Qt::AlignTop);
-      setStyleSheet(_BG_COLOR_2_);
-
-      //// color for combobox not set.
-      combo_interval.setStyleSheet(_BG_COLOR_3_);
-      combo_mode.setStyleSheet(_BG_COLOR_3_);
 
       widget_recorder.setLayout(&layout_recorder);
       layout_base.addWidget(&widget_plot);
@@ -183,11 +172,10 @@ W_OBJECT_IMPL(KRecorder)
       setLayout(&layout_base);
 
     }
-    LE_timer.setStyleSheet(_BG_COLOR_3_);
 
     btn_ch_plot_next.setEnabled(false);
     /* Displayed channel for plot */
-    QObject::connect(&btn_ch_plot_next, &KPushButton::clicked, [&]() {
+    QObject::connect(&btn_ch_plot_next, &QPushButton::clicked, [&]() {
         ch_plot++;
         if (ch_plot >= channels)
         ch_plot = 0;
@@ -200,7 +188,7 @@ W_OBJECT_IMPL(KRecorder)
     combo_mode.addItem("Interval");
 
     QObject::connect(&combo_mode, 
-        QOverload<int>::of (&KComboBox::currentIndexChanged),
+        QOverload<int>::of (&QComboBox::currentIndexChanged),
         [&](int index) {
         switch (index) {
         case MANUAL:
@@ -224,7 +212,7 @@ W_OBJECT_IMPL(KRecorder)
 
     /* Interval ComboBox */
 
-    ConfigParam param;
+    ConfigParam param(_CONFIG_JSON);
     sample_rate = param["SAMPLE_RATE"];
 
 
@@ -237,7 +225,7 @@ W_OBJECT_IMPL(KRecorder)
     // default value
     recording_interval = sample_rate * 300;
     QObject::connect(&combo_interval, 
-        QOverload<int>::of (&KComboBox::currentIndexChanged),
+        QOverload<int>::of (&QComboBox::currentIndexChanged),
         [&](int index) {
         switch(index){
         case 0:
@@ -262,9 +250,9 @@ W_OBJECT_IMPL(KRecorder)
     );
 
     /* Recording */
-    QObject::connect(&btn_record, &KPushButton::clicked, [&](){StartRecord();});
+    QObject::connect(&btn_record, &QPushButton::clicked, [&](){StartRecord();});
 
-    QObject::connect(&btn_init, &KPushButton::clicked, [&]() {
+    QObject::connect(&btn_init, &QPushButton::clicked, [&]() {
         if(!BuildModule())
         label_status.setText("Initialized");
         else
@@ -279,7 +267,7 @@ W_OBJECT_IMPL(KRecorder)
     //label_save_path.setText(file_path);
 
     /* Set Output file path */
-    QObject::connect(&btn_save_path, &KPushButton::clicked, [&]() {
+    QObject::connect(&btn_save_path, &QPushButton::clicked, [&]() {
         file_path = QFileDialog::getExistingDirectory(this, tr("Output Path"),
             nullptr,
             QFileDialog::ShowDirsOnly
@@ -537,12 +525,13 @@ QObject::connect(&check_split_wav, &QCheckBox::stateChanged,
     }
     );
 
-//QObject::connect(&timer, &QTimer::timeout, this, &KRecorder::SetTime);
-QObject::connect(this, &KRecorder::SignalStopTimer, this, &KRecorder::StopTimer);
-QObject::connect(this, &KRecorder::SignalRefreshTimer, this, &KRecorder::SetTime);
-QObject::connect(this, &KRecorder::SignalStartRecord, this, &KRecorder::StartRecord);
+//QObject::connect(&timer, &QTimer::timeout, this, &KRecorderControl::SetTime);
+QObject::connect(this, &KRecorderControl::SignalStopTimer, this, &KRecorderControl::StopTimer);
+QObject::connect(this, &KRecorderControl::SignalRefreshTimer, this, &KRecorderControl::SetTime);
+QObject::connect(this, &KRecorderControl::SignalStartRecord, this, &KRecorderControl::StartRecord);
 
 /* Logger */
+/*
 check_log.setChecked(true);
 try {
   // Create basic file logger (not rotated)
@@ -558,34 +547,35 @@ catch (const spdlog::spdlog_ex& ex){
       tr(ex.what())
       );
   }
+*/
 QObject::connect(&check_log, &QCheckBox::stateChanged,
     [&](int state) {
     // 0 or 2
     switch (state) {
     case 2:
-    spdlog::set_level(spdlog::level::info);
+  //  spdlog::set_level(spdlog::level::info);
     break;
     case 0:
-    spdlog::set_level(spdlog::level::off);
+//    spdlog::set_level(spdlog::level::off);
     break;
     }
     }
     );
 }
 
-KRecorder::~KRecorder() {
+KRecorderControl::~KRecorderControl() {
   //delete trayIcon;
   ClearBuild();
   if (wait_thread)delete wait_thread;
   delete[] out;
 }
 
-int KRecorder::BuildModule(){
-  spdlog::info("Build Module");
+int KRecorderControl::BuildModule(){
+ // spdlog::info("Build Module");
 
   ClearBuild();
-  ConfigParam param;
-  ConfigInput input;
+  ConfigParam param(_CONFIG_JSON);
+  ConfigInput input(_CONFIG_JSON);
 
   widget_plot.ResetShiftSize();
 
@@ -593,7 +583,7 @@ int KRecorder::BuildModule(){
   if(!param.IsOpen()){
     QMessageBox::critical( 
         this, 
-        tr("KRecorder "), 
+        tr("KRecorderControl "), 
         tr("Can't Open Config.json File!") );
     return -1;
   }
@@ -608,7 +598,7 @@ int KRecorder::BuildModule(){
   temp = new short[channels * shift_size];
   temp_plot = new short[shift_size*4];
   try {
-    rt = new RT_Input(device, channels, sample_rate, shift_size, frame_size);
+    rt = new RtInput(device, channels, sample_rate, shift_size, frame_size);
   }
   catch (std::runtime_error& e) {
     QMessageBox::critical(
@@ -645,7 +635,7 @@ int KRecorder::BuildModule(){
   return 0;
 }
 
-void KRecorder::StartRecord() {
+void KRecorderControl::StartRecord() {
   switch (rec_mode) {
     case MANUAL:
       /* Stop Recording */
@@ -655,7 +645,7 @@ void KRecorder::StartRecord() {
         isRecording = false;
         btn_record.setText(text_record);
         printf("Recording stopped.\n");
-        spdlog::info("Recording stopped");
+      //  spdlog::info("Recording stopped");
         rt->Stop();
         rt->Clear();
         if (!do_split_wav) {
@@ -692,12 +682,12 @@ void KRecorder::StartRecord() {
             out[i]->NewFile(ch_file_name);
           }
         }
-        spdlog::info("File Created : {}",file_name);
+        //spdlog::info("File Created : {}",file_name);
         rt->SetRecordingInf();
         rt->Start();
-        rec_thread = new std::thread(&KRecorder::Recording, this);
+        rec_thread = new std::thread(&KRecorderControl::Recording, this);
         printf("Recording started.\n");
-        spdlog::info("Recording started");
+        //spdlog::info("Recording started");
         label_status.setText(qstring_file_name);
         label_status.setToolTip(qstring_file_name);
 
@@ -733,12 +723,12 @@ void KRecorder::StartRecord() {
         }
         rt->Start();
 
-        rec_thread = new std::thread(&KRecorder::Recording, this);
+        rec_thread = new std::thread(&KRecorderControl::Recording, this);
         rec_thread->detach();
 
         if (wait_thread)delete wait_thread;
 
-        wait_thread = new std::thread(&KRecorder::WaitRecording, this);
+        wait_thread = new std::thread(&KRecorderControl::WaitRecording, this);
         wait_thread->detach();
         /* Start Stopwatch */
         chrono_start = std::chrono::system_clock::now();
@@ -760,7 +750,7 @@ void KRecorder::StartRecord() {
         repaint();
         isRecording = true;
         is_interval_running = true;
-        rec_thread = new std::thread(&KRecorder::IntervalRecording, this, recording_interval);
+        rec_thread = new std::thread(&KRecorderControl::IntervalRecording, this, recording_interval);
       }
       else {
         isRecording = false;
@@ -777,7 +767,7 @@ void KRecorder::StartRecord() {
   }
 }
 
-void KRecorder::Recording() {
+void KRecorderControl::Recording() {
   while (rt->IsRunning()) {
     if (rt->data.stock.load() >= shift_size) {
       emit(SignalRefreshTimer());
@@ -814,7 +804,7 @@ void KRecorder::Recording() {
 }
 
 
-void KRecorder::WaitRecording() {
+void KRecorderControl::WaitRecording() {
 
   while (rt->IsRunning()) { 
 
@@ -839,7 +829,7 @@ void KRecorder::WaitRecording() {
 }
 
 /* Slot */
-void KRecorder::SetTime() {
+void KRecorderControl::SetTime() {
   if (!is_setting_time.load()) {
     is_setting_time.store(true);
     chrono_elapsed = std::chrono::system_clock::now() - chrono_start;
@@ -849,11 +839,11 @@ void KRecorder::SetTime() {
 }
 
 /* Slot */
-void KRecorder::StopTimer() {
+void KRecorderControl::StopTimer() {
   timer.stop();
 }
 
-void KRecorder::EnableSetting(bool flag) {
+void KRecorderControl::EnableSetting(bool flag) {
   btn_init.setEnabled(flag);
   combo_interval.setEnabled(flag);
   combo_mode.setEnabled(flag);
@@ -861,7 +851,7 @@ void KRecorder::EnableSetting(bool flag) {
   LE_timer.setEnabled(flag && (rec_mode == TIMER));
 }
 
-void KRecorder::SetFileName() {
+void KRecorderControl::SetFileName() {
   SetDateTime();
   /* Execption for "" */
   if(file_path.isEmpty())
@@ -876,7 +866,7 @@ void KRecorder::SetFileName() {
   strcpy(file_name, file_path_buf.toLocal8Bit());
 }
 
-void KRecorder::ClearBuild(){
+void KRecorderControl::ClearBuild(){
   if (isInited) {
     delete rt;
     delete[] temp;
@@ -899,7 +889,7 @@ void KRecorder::ClearBuild(){
   }
 }
 
-void KRecorder::IntervalRecording(int stock){
+void KRecorderControl::IntervalRecording(int stock){
   //printf("Run interval Thread\n");
   // run recording thread
   rt->Start();
@@ -993,7 +983,7 @@ void KRecorder::IntervalRecording(int stock){
 }
 
 #if _WIN32
-void KRecorder::KeyboardInput() {
+void KRecorderControl::KeyboardInput() {
   bool run = true;
 
   while (run) {
@@ -1010,7 +1000,7 @@ void KRecorder::KeyboardInput() {
     //F6
     if (GetKeyState(VK_F6) < 0 && !fF6){
       fF6 = true;
-      spdlog::info("F6 Pressed");
+      //spdlog::info("F6 Pressed");
 
       //std::cout << "F6 pressed" << std::endl;
       // Build Module every time.
@@ -1047,7 +1037,7 @@ void KRecorder::KeyboardInput() {
 }
 #endif
 
-void KRecorder::LoadFilePath() {
+void KRecorderControl::LoadFilePath() {
   std::ifstream ifs("../config/path.txt");
   if (!ifs.is_open())
     printf("ERROR::Can't open path.json");

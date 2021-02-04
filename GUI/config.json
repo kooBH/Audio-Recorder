@@ -1,0 +1,75 @@
+{
+    "INPUT": {
+        "DEVICE": 5,
+        "INPUT_FILE": "../simple/build/s_6x4_source_1.wav",
+        "REAL_TIME": false,
+        "SCALE": 15.0
+    },
+    "PARAM": {
+        "CHANNEL": {
+            "OPTIONS": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16
+            ],
+            "VALUE": 1
+        },
+        "FRAME_SIZE": {
+            "OPTIONS": [
+                512,
+                1024,
+                2048,
+                4096,
+                8192
+            ],
+            "VALUE": 512
+        },
+        "REFERENCE": {
+            "OPTIONS": [
+                0,
+                1,
+                2
+            ],
+            "VALUE": 0
+        },
+        "SAMPLE_RATE": {
+            "OPTIONS": [
+                8000,
+                11020,
+                16000,
+                22050,
+                32000,
+                44100,
+                48000,
+                88200,
+                96000,
+                176400,
+                192000
+            ],
+            "VALUE": 16000
+        },
+        "SHIFT_SIZE": {
+            "OPTIONS": [
+                128,
+                256,
+                512,
+                1024,
+                2048
+            ],
+            "VALUE": 128
+        }
+    }
+}

@@ -39,7 +39,7 @@
 #include <cstring>
 #include <exception>
 #include <limits>
-#include <serial/v8stdint.h>
+#include <v8stdint.h>
 #include <sstream>
 #include <stdexcept>
 #include <string>
