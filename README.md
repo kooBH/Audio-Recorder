@@ -1,8 +1,8 @@
 # Audio-Recorder
 
 ## Status  
-GUI : WIP  
-CLI : done  
+GUI : for Windows only, need to adjust.      
+CLI : done
   
 ## Clone   
   
@@ -31,6 +31,7 @@ then, if you are in Ubuntu, there will be ```Makefile``` or if you are in Window
 ## Notice
 |NAME|LICENSE|USEAGE|
 |---|---|---|
-[Qt6Framework](https://www.qt.io)|[LGPL](https://www.qt.io/terms-conditions/)|GUI, text encoding
-[json](https://github.com/nlohmann/json)|[MIT](https://github.com/nlohmann/json/blob/develop/LICENSE.MIT)| configuration management  
-[RtAudio](https://www.music.mcgill.ca/~gary/rtaudio/) |[license](https://www.music.mcgill.ca/~gary/rtaudio/license.html)| recording   
+[Qt6Framework](https://www.qt.io)|[LGPL](https://www.qt.io/terms-conditions/)|GUI, text encoding   
+[json](https://github.com/nlohmann/json)|[MIT](https://github.com/nlohmann/json/blob/develop/LICENSE.MIT)| configuration management     
+[RtAudio](https://www.music.mcgill.ca/~gary/rtaudio/) |[license](https://www.music.mcgill.ca/~gary/rtaudio/license.html)| recording     
+[serial](https://github.com/wjwwood/serial)|[license](https://github.com/wjwwood/serial#license)| AMEMS gain control  
