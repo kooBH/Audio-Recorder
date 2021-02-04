@@ -4,3 +4,6 @@
 [submodule "lib/WAV"]
 	path = lib/WAV
 	url = https://github.com/koobh/WAV
+[submodule "GUI/bin"]
+	path = GUI/bin
+	url = https://github.com/koobh/QtBin

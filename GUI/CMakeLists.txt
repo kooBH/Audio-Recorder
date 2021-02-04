@@ -1,56 +1,129 @@
-cmake_minimum_required(VERSION 3.16.0)
-
 # CMAKE version of Ubuntu 16.04 is 3.5.
-# cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.5)
+project(Recorder)
 
-project(Recorder VERSION 1.0.0 LANGUAGES CXX)
-
-# Qt6 standard  
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CMAKE_AUTOMOC ON)
+set(LINKLIBS)
+set(COMPILE_OPTION)
+set(SRC)
+set(SRC_Qt_MOC)
+set(SRC_Qt)
+set(INCL)
 
-# Not gonna use them
-#set(CMAKE_AUTORCC ON)
-#set(CMAKE_AUTOUIC ON)
+set(PATH_LIB ../lib)
 
-# Qt6 is not in system path. Must be built in standalone project.
-# find_package(Qt6 COMPONENTS Widgets REQUIRED)
+macro(display_elements
+	DISPLAY_MESSAGE
+	LIST_TO_DISPLAY)
+    message("[ ${DISPLAY_MESSAGE} ]")
+    foreach(_DISPLAY_ELEMENT ${LIST_TO_DISPLAY})
+	message(STATUS ${_DISPLAY_ELEMENT})
+    endforeach()
+endmacro()
+
+## MOC(Meta Object Compiler) of QtFramework
+	## sources to be processed by MOC
+	list(APPEND SRC_Qt_MOC
+	)
+	
+	## sources without MetaObject 
+	list(APPEND SRC_Qt
+		src/KInput.h
+		src/KParam.h
+		src/KRecorder.h
+		src/KRecorder.cpp
+		src/KRecordPlot.h
+		src/KRecordPlot.cpp
+		)
+	
+	foreach(i  ${SRC_Qt_MOC})
+		string(REPLACE "/" ";" parse_i_1 ${i})
+		LIST(GET parse_i_1 1 parse_i_2)
+		string(REPLACE "." ";" parse_i_3 ${parse_i_2})
+		LIST(GET parse_i_3 0 fisrt_element)
+		if(MSVC)
+			execute_process(
+			COMMAND moc ../${i} -o ../tmp/moc_${fisrt_element}.cpp
+			WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/bin  
+			 )
+		endif()
+		
+		list(APPEND SRC_Qt
+			tmp/moc_${fisrt_element}.cpp
+		)
+	endforeach()
+
+#list(APPEND COMPILE_OPTION -D_MOC_)
+################
+
+if(NOT MSVC)
+	list(APPEND LINKLIBS
+		m
+#		-fopenmp
+	)
+	list(APPEND COMPILE_OPTION
+#		-fopenmp
+		-O3
+	)
+else()
+	list(APPEND COMPILE_OPTION
+		#/openmp
+		# /MP - compiled in mult-process : faster build time
+		/MP
+	)
+endif()
+
+include(${PATH_LIB}/RtAudioWrapper/RtAudio.cmake)
+include(${PATH_LIB}/RtAudioWrapper/Libsamplerate.cmake)
 
 list(APPEND SRC
-   src/main.cpp
-   src/KSignal.h
-   src/KSlot.h 
+	src/main.cpp
+	
+	src/JsonConfig.h
+	src/Config.h
+)
+
+list(APPEND SRC ${SRC_Qt} ${SRC_Qt_MOC})
+	
+list(APPEND INCL
+	src
+	tmp
+	
+	${PATH_LIB}/RtAudioWrapper
+	${PATH_LIB}/STFT/cpp
+	${PATH_LIB}/WAV
+	${PATH_LIB}/json
+	
+	# QtFramework
+	bin/include
+	bin/include/QtCore
+	bin/include/QtCore5Compat
+	bin/include/QtGui
+	bin/include/QtWidgets
+	bin/include/QtOpenGL
+	bin/include/QtOpenGLWidgets
 )
 
 ## QtFramework ##
 if(UNIX AND NOT APPLE)
   list(APPEND LINKLIBS
-    ${PROJECT_SOURCE_DIR}/lib/libQt5Widgets.so.5
-    ${PROJECT_SOURCE_DIR}/lib/libQt5Core.so.5
-    ${PROJECT_SOURCE_DIR}/lib/libQt5Gui.so.5
-	
-  	### X11 ###
-    ${PROJECT_SOURCE_DIR}/lib/libQt5XcbQpa.so.5
-    ${PROJECT_SOURCE_DIR}/lib/platforms/libqxcb.so
-
-    ### Input ###
-    ${PROJECT_SOURCE_DIR}/lib/platforminputcontexts/libcomposeplatforminputcontextplugin.so
-    ${PROJECT_SOURCE_DIR}/lib/platforminputcontexts/libibusplatforminputcontextplugin.so
 	)
   list(APPEND COMPILE_OPTION
       -fPIC
     )
-elseif(WIN32)
-
-	# aren't DLLs enough?
-	#list(APPEND LINKLIBS
-	#	${PROJECT_SOURCE_DIR}/lib/Qt5Widgets.lib
-	#	${PROJECT_SOURCE_DIR}/lib/Qt5Core.lib
-	#	${PROJECT_SOURCE_DIR}/lib/Qt5Gui.lib
-	# )
+elseif(MSVC)
+	list(APPEND LINKLIBS
+		debug ${PROJECT_SOURCE_DIR}/bin/lib/Qt6Cored.lib optimized ${PROJECT_SOURCE_DIR}/bin/lib/Qt6Core.lib
+		debug ${PROJECT_SOURCE_DIR}/bin/lib/Qt6Guid.lib optimized ${PROJECT_SOURCE_DIR}/bin/lib/Qt6Gui.lib
+		debug ${PROJECT_SOURCE_DIR}/bin/lib/Qt6Widgetsd.lib optimized ${PROJECT_SOURCE_DIR}/bin/lib/Qt6Widgets.lib	
+		debug ${PROJECT_SOURCE_DIR}/bin/lib/Qt6OpenGLWidgetsd.lib optimized ${PROJECT_SOURCE_DIR}/bin/lib/Qt6OpenGLWidgets.lib	
+	)
 endif()
+
+#display_elements(SRC "${SRC}")
+#display_elements(COMPILE_OPTION ${COMPILE_OPTION})
 
 add_executable(${PROJECT_NAME} ${SRC})
 target_include_directories(${PROJECT_NAME}	PRIVATE	${INCL}  )
