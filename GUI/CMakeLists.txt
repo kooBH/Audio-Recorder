@@ -26,15 +26,16 @@ endmacro()
 ## MOC(Meta Object Compiler) of QtFramework
 	## sources to be processed by MOC
 	list(APPEND SRC_Qt_MOC
+		src/KRecordPlot.h
+		src/KRecorder.h
 	)
 	
 	## sources without MetaObject 
 	list(APPEND SRC_Qt
 		src/KInput.h
-		src/KParam.h
-		src/KRecorder.h
+		
 		src/KRecorder.cpp
-		src/KRecordPlot.h
+		
 		src/KRecordPlot.cpp
 		)
 	
@@ -77,6 +78,7 @@ endif()
 
 include(${PATH_LIB}/RtAudioWrapper/RtAudio.cmake)
 include(${PATH_LIB}/RtAudioWrapper/Libsamplerate.cmake)
+include(lib/serial/serial.cmake)
 
 list(APPEND SRC
 	src/main.cpp
@@ -90,7 +92,6 @@ list(APPEND SRC ${SRC_Qt} ${SRC_Qt_MOC})
 list(APPEND INCL
 	src
 	tmp
-	
 	${PATH_LIB}/RtAudioWrapper
 	${PATH_LIB}/STFT/cpp
 	${PATH_LIB}/WAV
