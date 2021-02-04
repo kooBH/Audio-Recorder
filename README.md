@@ -2,6 +2,7 @@
 
 ## Status  
 GUI : for Windows only, need to adjust.      
+![GUI](doc/Recorder.png)
 CLI : done
   
 ## Clone   
