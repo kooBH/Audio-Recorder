@@ -28,12 +28,13 @@ include(Recorder.cmake)
 ## MOC(Meta Object Compiler) of QtFramework
 	foreach(i  ${SRC_Qt_MOC})
 		string(REPLACE "/" ";" parse_i_1 ${i})
-		LIST(GET parse_i_1 1 parse_i_2)
+		LIST(GET parse_i_1 -1 parse_i_2)
 		string(REPLACE "." ";" parse_i_3 ${parse_i_2})
 		LIST(GET parse_i_3 0 fisrt_element)
+		
 		if(MSVC)
 			execute_process(
-			COMMAND moc ../${i} -o tmp/moc_${fisrt_element}.cpp
+			COMMAND moc ${i} -o tmp/moc_${fisrt_element}.cpp
 			WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/bin  
 			 )
 		endif()
