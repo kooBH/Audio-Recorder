@@ -48,7 +48,7 @@ using std::make_pair;
 class  KInput : public QWidget{
   protected:
     // Order(Releasing order) is important.
-    QHBoxLayout base_layout;
+    QVBoxLayout base_layout;
     QTextBrowser TB_device;
 
     QWidget left_widget;
@@ -244,7 +244,7 @@ inline  KInput::KInput() :
   left_layout.addLayout(&serial_btn_layout);
 
   left_widget.setLayout(&left_layout);
-  left_widget.setFixedWidth(260);
+  left_widget.setFixedWidth(380);
 
   /*** base loyout ***/
   //base_layout.addWidget(&left_widget,0,0,1,1);

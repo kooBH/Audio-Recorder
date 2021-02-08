@@ -273,9 +273,9 @@
             QFileDialog::ShowDirsOnly
             | QFileDialog::DontResolveSymlinks);
         label_save_path.setText(file_path);
-        std::ofstream ofs("../config/path.txt");
+        std::ofstream ofs("../path.txt");
         if (!ofs.is_open())
-        printf("ERROR::Can't open path.json");
+        printf("ERROR::Can't open path.txt");
         ofs << file_path.toStdString();
         ofs.close();
         });
@@ -297,195 +297,6 @@
         }
         );
 
-    /*** max_ch input scale ***/
-    /*
-       {
-       QObject::connect(&LE_scale[0], &QLineEdit::textChanged,
-       [&](const QString& text) {
-       bool is_valid;
-       double temp_double;
-       temp_double = text.toDouble(&is_valid);
-       if (is_valid) {
-       scale[0] = temp_double;
-       label.setText("ch 1's scale : " + QString::number(temp_double));
-       }
-       }
-       );
-       QObject::connect(&LE_scale[1], &QLineEdit::textChanged,
-       [&](const QString& text) {
-       bool is_valid;
-       double temp_double;
-       temp_double = text.toDouble(&is_valid);
-       if (is_valid) {
-       scale[1] = temp_double;
-       label.setText("ch 2's scale : " + QString::number(temp_double));
-       }
-       }
-       );
-       QObject::connect(&LE_scale[2], &QLineEdit::textChanged,
-       [&](const QString& text) {
-       bool is_valid;
-       double temp_double;
-       temp_double = text.toDouble(&is_valid);
-       if (is_valid) {
-       scale[2] = temp_double;
-       label.setText("ch 3's scale : " + QString::number(temp_double));
-       }
-       }
-       );
-       QObject::connect(&LE_scale[3], &QLineEdit::textChanged,
-       [&](const QString& text) {
-       bool is_valid;
-       double temp_double;
-       temp_double = text.toDouble(&is_valid);
-       if (is_valid) {
-       scale[3] = temp_double;
-       label.setText("ch 4's scale : " + QString::number(temp_double));
-       }
-       }
-       );
-       QObject::connect(&LE_scale[4], &QLineEdit::textChanged,
-       [&](const QString& text) {
-       bool is_valid;
-       double temp_double;
-       temp_double = text.toDouble(&is_valid);
-       if (is_valid) {
-       scale[4] = temp_double;
-       label.setText("ch 5's scale : " + QString::number(temp_double));
-       }
-       }
-       );
-       QObject::connect(&LE_scale[5], &QLineEdit::textChanged,
-       [&](const QString& text) {
-       bool is_valid;
-       double temp_double;
-       temp_double = text.toDouble(&is_valid);
-       if (is_valid) {
-       scale[5] = temp_double;
-       label.setText("ch 6's scale : " + QString::number(temp_double));
-       }
-       }
-       );
-       QObject::connect(&LE_scale[6], &QLineEdit::textChanged,
-       [&](const QString& text) {
-       bool is_valid;
-    double temp_double;
-    temp_double = text.toDouble(&is_valid);
-    if (is_valid) {
-      scale[6] = temp_double;
-      label.setText("ch 7's scale : " + QString::number(temp_double));
-    }
-  }
-  );
-  QObject::connect(&LE_scale[7], &QLineEdit::textChanged,
-      [&](const QString& text) {
-      bool is_valid;
-      double temp_double;
-      temp_double = text.toDouble(&is_valid);
-      if (is_valid) {
-      scale[7] = temp_double;
-      label.setText("ch 8's scale : " + QString::number(temp_double));
-      }
-      }
-      );
-  QObject::connect(&LE_scale[8], &QLineEdit::textChanged,
-      [&](const QString& text) {
-      bool is_valid;
-      double temp_double;
-      temp_double = text.toDouble(&is_valid);
-      if (is_valid) {
-      scale[8] = temp_double;
-      label.setText("ch 9's scale : " + QString::number(temp_double));
-      }
-      }
-      );
-
-  QObject::connect(&LE_scale[9], &QLineEdit::textChanged,
-      [&](const QString& text) {
-      bool is_valid;
-      double temp_double;
-      temp_double = text.toDouble(&is_valid);
-      if (is_valid) {
-      scale[9] = temp_double;
-      label.setText("ch 10's scale : " + QString::number(temp_double));
-      }
-      }
-      );
-
-  QObject::connect(&LE_scale[10], &QLineEdit::textChanged,
-      [&](const QString& text) {
-      bool is_valid;
-      double temp_double;
-      temp_double = text.toDouble(&is_valid);
-      if (is_valid) {
-      scale[10] = temp_double;
-      label.setText("ch 11's scale : " + QString::number(temp_double));
-      }
-      }
-      );
-
-  QObject::connect(&LE_scale[11], &QLineEdit::textChanged,
-      [&](const QString& text) {
-      bool is_valid;
-      double temp_double;
-      temp_double = text.toDouble(&is_valid);
-      if (is_valid) {
-      scale[11] = temp_double;
-      label.setText("ch 12's scale : " + QString::number(temp_double));
-      }
-      }
-      );
-
-  QObject::connect(&LE_scale[12], &QLineEdit::textChanged,
-      [&](const QString& text) {
-      bool is_valid;
-      double temp_double;
-      temp_double = text.toDouble(&is_valid);
-      if (is_valid) {
-      scale[12] = temp_double;
-      label.setText("ch 13's scale : " + QString::number(temp_double));
-      }
-      }
-      );
-
-  QObject::connect(&LE_scale[13], &QLineEdit::textChanged,
-      [&](const QString& text) {
-      bool is_valid;
-      double temp_double;
-      temp_double = text.toDouble(&is_valid);
-      if (is_valid) {
-      scale[13] = temp_double;
-      label.setText("ch 14's scale : " + QString::number(temp_double));
-      }
-      }
-      );
-
-  QObject::connect(&LE_scale[14], &QLineEdit::textChanged,
-      [&](const QString& text) {
-      bool is_valid;
-      double temp_double;
-      temp_double = text.toDouble(&is_valid);
-      if (is_valid) {
-      scale[14] = temp_double;
-      label.setText("ch 15's scale : " + QString::number(temp_double));
-      }
-      }
-      );
-
-  QObject::connect(&LE_scale[15], &QLineEdit::textChanged,
-      [&](const QString& text) {
-      bool is_valid;
-      double temp_double;
-      temp_double = text.toDouble(&is_valid);
-      if (is_valid) {
-      scale[15] = temp_double;
-      label.setText("ch 16's scale : " + QString::number(temp_double));
-      }
-      }
-      );
-  }
-  }
-*/
 QObject::connect(&LE_scale, &QLineEdit::textChanged,
     [&](const QString& text) {
     bool is_valid;
@@ -595,6 +406,12 @@ int KRecorderControl::BuildModule(){
   frame_size = param["FRAME_SIZE"];
   device = input.GetDevice();
 
+  printf(" *** BuildModule ***\n");
+  printf("samplerate : %d\n", sample_rate);
+  printf("channels   : %d\n", channels);
+  printf("shift_size : %d\n", shift_size);
+  printf("device     : %d\n", device);
+
   temp = new short[channels * shift_size];
   temp_plot = new short[shift_size*4];
   try {
@@ -658,6 +475,8 @@ void KRecorderControl::StartRecord() {
         rec_thread->join();
         delete rec_thread;
 
+        emit(SignalReturnFilePath(QString(file_name)));
+
       }
       /* Start Recording */
       else {
@@ -669,7 +488,6 @@ void KRecorderControl::StartRecord() {
 #else
         btn_record.setText("Stop");
 #endif
-
         /* Craete output */
         SetFileName();
         if (!do_split_wav)
@@ -686,7 +504,8 @@ void KRecorderControl::StartRecord() {
         rt->SetRecordingInf();
         rt->Start();
         rec_thread = new std::thread(&KRecorderControl::Recording, this);
-        printf("Recording started.\n");
+        printf("Recording started[MANUAL]\n");
+        
         //spdlog::info("Recording started");
         label_status.setText(qstring_file_name);
         label_status.setToolTip(qstring_file_name);
@@ -695,7 +514,6 @@ void KRecorderControl::StartRecord() {
         chrono_start = std::chrono::system_clock::now();
 
         //timer.start(timer_delay);
-
       }
       break;
     case TIMER:
@@ -735,12 +553,12 @@ void KRecorderControl::StartRecord() {
         //timer.start(timer_delay);
         btn_record.setEnabled(true);
         btn_record.setText("Stop");
-        break;
       }
       /* Already running timered recording -> kill recording */
       else {
         rt->Stop();
       }
+        break;
     case INTERVAL:
       if (!isRecording) {
         label_status.setText("Recording...");
@@ -763,43 +581,52 @@ void KRecorderControl::StartRecord() {
       }
       break;
     default:
+      
       break;
   }
 }
 
 void KRecorderControl::Recording() {
+  printf("SCALE      : %lf\n",scale);
+  printf("shift_size : %d\n",shift_size);
+  printf("channels   : %d\n",channels);
   while (rt->IsRunning()) {
     if (rt->data.stock.load() >= shift_size) {
       emit(SignalRefreshTimer());
       rt->GetBuffer(temp);
-
-      for (int i = 0; i < shift_size*3; i++) {
-        temp_plot[i] = temp_plot[i+shift_size];
+      for (int i = 0; i < shift_size * 3; i++) {
+        temp_plot[i] = temp_plot[i + shift_size];
       }
       for (int i = 0; i < shift_size; i++) {
-        temp_plot[i+shift_size*3] = temp[i*channels+ch_plot];
+        temp_plot[i + shift_size * 3] = temp[i * channels + ch_plot];
       }
       widget_plot.DrawPlot(temp_plot);
 
       /* input scaleing */
-
       if (!do_split_wav) {
-        if(scale!=1)
-          for (int i = 0; i < shift_size * channels; i++)
-            temp[i] *= scale;
-        out[0]->Append(temp, shift_size * channels);
-      }
-      else {
         if (scale != 1)
           for (int i = 0; i < shift_size * channels; i++) {
-            temp[i] *= scale;
+            temp[i] = static_cast<short>(scale * temp[i]);
+          }
+        for(int i=0;i<shift_size;i++)
+          printf("%d ",temp[i]);
+        printf("\n");
+        out[0]->Append(temp, shift_size * channels);
+      }
+      // split wav
+      else {
+        printf("SPLIT\n");
+        if (scale != 1)
+          for (int i = 0; i < shift_size * channels; i++) {
+            temp[i] = static_cast<short>(scale*temp[i]);
             buf_split[i % channels][i / channels] = temp[i];
           }
-        for(int i=0;i<channels;i++)
+        for (int i = 0; i < channels; i++)
           out[i]->Append(buf_split[i], shift_size);
       }
-
     }
+    else
+      SLEEP(100);
   }
 }
 
@@ -915,10 +742,9 @@ void KRecorderControl::IntervalRecording(int stock){
       // cut audio input for every given second  
       elap += shift_size;
       //std:cout << elap << std::endl;;
-      // TODO
 
+      // TODO... todo what? 
       rt->GetBuffer(temp);
-
 
       /* Plot */
       for (int i = 0; i < shift_size * 3; i++) {
@@ -1038,9 +864,9 @@ void KRecorderControl::KeyboardInput() {
 #endif
 
 void KRecorderControl::LoadFilePath() {
-  std::ifstream ifs("../config/path.txt");
+  std::ifstream ifs("../path.txt");
   if (!ifs.is_open())
-    printf("ERROR::Can't open path.json");
+    printf("ERROR::Can't open path.txt");
   std::string tmp_str;
   std::getline(ifs, tmp_str);
   this->file_path = QString::fromUtf8(tmp_str.c_str());
@@ -1049,3 +875,20 @@ void KRecorderControl::LoadFilePath() {
   ifs.close();
 }
 
+void KRecorderControl::ToggleInteract(bool flag) {
+  btn_save_path.setEnabled(flag);
+  btn_init.setEnabled(flag);
+  btn_record.setEnabled(flag);
+
+  combo_mode.setEnabled(flag);
+  combo_interval.setEnabled(flag);
+  
+  check_split_wav.setEnabled(flag);
+  check_log.setEnabled(flag);
+}
+
+void KRecorderControl::SlotToggleRecordnig(){
+  if (!isRecording)
+    BuildModule();
+  emit(SignalStartRecord());
+}

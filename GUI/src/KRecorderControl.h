@@ -56,6 +56,8 @@ class KRecorderControl : public QWidget{
     KRecordPlotRec widget_plot;
     
   QWidget widget_recorder;
+
+
   QVBoxLayout layout_recorder;
   QHBoxLayout  layout_plot_control;
   QLabel label_ch_plot;
@@ -199,23 +201,22 @@ const QString text_record = "Record";
 
 public slots:
 	void SetTime();
-
-		void StopTimer();
-
-    void StartRecord();
+  void StopTimer();
+  void StartRecord();
+  void SlotToggleRecordnig();
 
 signals:
 	/* Should not Stop Timer from another thread. */
   void SignalStopTimer();
-
   void SignalRefreshTimer();
-
   void SignalStartRecord();
+  void SignalReturnFilePath(QString path);
 
   public:
 #if _WIN32
     void KeyboardInput();
 #endif
+    void ToggleInteract(bool);
 	  KRecorderControl();
 	  ~KRecorderControl();
 };

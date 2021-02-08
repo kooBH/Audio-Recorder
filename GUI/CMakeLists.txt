@@ -23,22 +23,9 @@ macro(display_elements
     endforeach()
 endmacro()
 
+include(Recorder.cmake)
+
 ## MOC(Meta Object Compiler) of QtFramework
-	## sources to be processed by MOC
-	list(APPEND SRC_Qt_MOC
-		src/KRecordPlot.h
-		src/KRecorderControl.h
-	)	
-	
-	## sources without MetaObject 
-	list(APPEND SRC_Qt
-		src/KInput.h
-		src/KParam.h
-		src/KRecorder.h
-		src/KRecorderControl.cpp
-		src/KRecordPlot.cpp
-		)
-	
 	foreach(i  ${SRC_Qt_MOC})
 		string(REPLACE "/" ";" parse_i_1 ${i})
 		LIST(GET parse_i_1 1 parse_i_2)
@@ -79,26 +66,18 @@ endif()
 
 include(${PATH_LIB}/RtAudioWrapper/RtAudio.cmake)
 include(${PATH_LIB}/RtAudioWrapper/Libsamplerate.cmake)
-include(lib/serial/serial.cmake)
 
 list(APPEND SRC
 	src/main.cpp
-	
-	src/JsonConfig.h
-	src/Config.h
 )
 
 list(APPEND SRC ${SRC_Qt} ${SRC_Qt_MOC})
 	
 list(APPEND INCL
-	src
 	tmp
 	${PATH_LIB}/RtAudioWrapper
 	${PATH_LIB}/STFT/cpp
 	${PATH_LIB}/WAV
-	${PATH_LIB}/json
-	
-	lib/serial
 	
 	# QtFramework
 	bin/include
@@ -108,11 +87,6 @@ list(APPEND INCL
 	bin/include/QtWidgets
 	bin/include/QtOpenGL
 	bin/include/QtOpenGLWidgets
-)
-
-## PATH
-list(APPEND COMPILE_OPTION
-  -D_CONFIG_JSON="../config.json"
 )
 
 ## QtFramework ##

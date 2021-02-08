@@ -10,43 +10,29 @@
 #include "KInput.h"
 
 class KRecorder : public QWidget {
+  Q_OBJECT
   private:
-
     QHBoxLayout layout_main;
     QTabWidget widget_tab;
-    KRecorderControl w1;
-    KInput w2;
-    KParam w3;
+    KRecorderControl widget_recorder;
+    KInput widget_input;
+    KParam widget_param;
+
+    bool isRecording;
 
 public : 
-  KRecorder() {
-    widget_tab.setFixedSize(QSize(400,580));
-    widget_tab.addTab(&w1, "Rec");
-    widget_tab.addTab(&w2, "Input");
-    widget_tab.addTab(&w3, "Param");
-    layout_main.addWidget(&widget_tab);
-    setLayout(&layout_main);
+  KRecorder();
+  
+  void ToggleRecorderInteract(bool);
 
-    /* Start at Right Top Corner */
-    // QSize size = widget_main.sizeHint();
-    // QRect rec = QApplication::desktop()->screenGeometry();
-    // int width = rec.width();
-    // widget_main.move(width - size.width(), 0);
+  public slots:
+  void SlotToggleRecording();
+  void SlotReturnFilePath(QString path);
 
-      setStyleSheet("\
-      QLabel{background:white;border: 1px solid black;}\
-      QPushButton{color:black;}\
-      QComboBox{color:black;}\
-      QTextBrowser{color:black;}\
-      QLabel:disabled{color:gray;}\
-      QPushButton:disabled{color:gray;}\
-      QComboBox:disabled{color:gray;}\
-      QTextBrowser:disabled{color:gray;}\
-      \
-      ");
-  }
-    
 
+signals:
+  void SignalToggleRecording();
+  void SignalRecordFinished(QString flle_path);
 
 };
 
