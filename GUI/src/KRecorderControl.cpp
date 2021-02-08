@@ -32,7 +32,7 @@
     btn_record.setEnabled(false);
 
     combo_interval.setEnabled(false);
-
+    interactLock = false;
     QFont font;
     // Requested 1.20
     // font.setPointSize(36);
@@ -432,15 +432,14 @@ int KRecorderControl::BuildModule(){
       out[i] = new WAV(1, sample_rate);
     }
   }
-
   /* build split buffer */
   buf_split = new short* [channels];
   for (int i = 0; i < channels; i++)
     buf_split[i] = new short[shift_size];
 
-
   isInited = true;
-  btn_record.setEnabled(true);
+  if(!interactLock)
+    btn_record.setEnabled(true);
   btn_ch_plot_next.setEnabled(true);
   /* input scale widgets */
   /*
@@ -476,7 +475,6 @@ void KRecorderControl::StartRecord() {
         delete rec_thread;
 
         emit(SignalReturnFilePath(QString(file_name)));
-
       }
       /* Start Recording */
       else {
@@ -551,7 +549,8 @@ void KRecorderControl::StartRecord() {
         /* Start Stopwatch */
         chrono_start = std::chrono::system_clock::now();
         //timer.start(timer_delay);
-        btn_record.setEnabled(true);
+        if(!interactLock)
+          btn_record.setEnabled(true);
         btn_record.setText("Stop");
       }
       /* Already running timered recording -> kill recording */
@@ -587,9 +586,6 @@ void KRecorderControl::StartRecord() {
 }
 
 void KRecorderControl::Recording() {
-  printf("SCALE      : %lf\n",scale);
-  printf("shift_size : %d\n",shift_size);
-  printf("channels   : %d\n",channels);
   while (rt->IsRunning()) {
     if (rt->data.stock.load() >= shift_size) {
       emit(SignalRefreshTimer());
@@ -608,14 +604,10 @@ void KRecorderControl::Recording() {
           for (int i = 0; i < shift_size * channels; i++) {
             temp[i] = static_cast<short>(scale * temp[i]);
           }
-        for(int i=0;i<shift_size;i++)
-          printf("%d ",temp[i]);
-        printf("\n");
         out[0]->Append(temp, shift_size * channels);
       }
       // split wav
       else {
-        printf("SPLIT\n");
         if (scale != 1)
           for (int i = 0; i < shift_size * channels; i++) {
             temp[i] = static_cast<short>(scale*temp[i]);
@@ -629,7 +621,6 @@ void KRecorderControl::Recording() {
       SLEEP(100);
   }
 }
-
 
 void KRecorderControl::WaitRecording() {
 
@@ -671,6 +662,8 @@ void KRecorderControl::StopTimer() {
 }
 
 void KRecorderControl::EnableSetting(bool flag) {
+  if (interactLock)
+    return;
   btn_init.setEnabled(flag);
   combo_interval.setEnabled(flag);
   combo_mode.setEnabled(flag);
@@ -876,6 +869,7 @@ void KRecorderControl::LoadFilePath() {
 }
 
 void KRecorderControl::ToggleInteract(bool flag) {
+  interactLock = !flag;
   btn_save_path.setEnabled(flag);
   btn_init.setEnabled(flag);
   btn_record.setEnabled(flag);

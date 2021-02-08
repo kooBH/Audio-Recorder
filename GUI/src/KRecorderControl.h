@@ -114,6 +114,7 @@ class KRecorderControl : public QWidget{
 
   bool isRecording;
   bool isInited;
+  bool interactLock;
 
   QString file_path;
   QString file_path_buf;
