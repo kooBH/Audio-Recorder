@@ -19,10 +19,12 @@ class ConfigInput{
   public:
     bool real_time;
     int device;
-    std::string input_file;
+    /* json can't handle utf properly. so Input file will be 
+	   dealed with plain text file */
+	//std::string input_file;
     double scale;
     ConfigInput(string _path_config){
-      input_file= _path_config;
+      //input_file= _path_config;
       is_open = false;
       Load();
 
@@ -38,14 +40,14 @@ class ConfigInput{
       json j = json::parse(ifs);
       real_time = j["INPUT"]["REAL_TIME"].get<bool>();
       device = j["INPUT"]["DEVICE"].get<int>();
-      input_file = j["INPUT"]["INPUT_FILE"].get<std::string>();
+      //input_file = j["INPUT"]["INPUT_FILE"].get<std::string>();
       scale = j["INPUT"]["SCALE"].get<double>();
       ifs.close();
     }
     /* Since ConfigInput has multiple member types.. */
     bool IsRealTime(){return real_time;}
     int GetDevice(){return device;}
-    std::string GetInputFile(){return input_file;}
+    //std::string GetInputFile(){return input_file;}
 };
 
 class ConfigParam : public JsonConfig<int> {
@@ -57,8 +59,7 @@ class ConfigParam : public JsonConfig<int> {
 			"CHANNEL",
 			"FRAME_SIZE",
 			"SHIFT_SIZE",
-			"SAMPLE_RATE",
-			"REFERENCE"};
+			"SAMPLE_RATE"};
 
       Load();
     }
