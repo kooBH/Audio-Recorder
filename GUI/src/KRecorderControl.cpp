@@ -406,12 +406,13 @@ int KRecorderControl::BuildModule(){
   frame_size = param["FRAME_SIZE"];
   device = input.GetDevice();
 
+  
   printf(" *** BuildModule ***\n");
   printf("samplerate : %d\n", sample_rate);
   printf("channels   : %d\n", channels);
   printf("shift_size : %d\n", shift_size);
   printf("device     : %d\n", device);
-
+    
   temp = new short[channels * shift_size];
   temp_plot = new short[shift_size*4];
   try {

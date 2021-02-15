@@ -15,10 +15,10 @@ KRecorder::KRecorder() :QWidget() {
   // widget_main.move(width - size.width(), 0);
 
   setStyleSheet("\
-      QWidget{background:rgb(226, 228, 175); border: 1px solid black;}\
+      QWidget{background:rgb(226, 228, 175);}\
       QLabel{background:white;border: 1px solid black;}\
       QPushButton{color:black;}\
-      QComboBox{color:black;}\
+      QComboBox{color:black;background:white}\
       QTextBrowser{color:black;}\
       QLabel:disabled{color:gray;}\
       QPushButton:disabled{color:gray;}\
