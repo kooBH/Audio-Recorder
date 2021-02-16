@@ -11,7 +11,7 @@
 #include <QMessageBox>
 #include <QCheckBox>
 
-#include "Config.h"
+#include "jsonConfig.h"
 #include "RtBase.h"
 #include <map>
 
@@ -200,7 +200,7 @@ inline  KInput::KInput() :
   ifs.close();
 
   /**** Set Initial item ***/
-  combo.setCurrentIndex(j["INPUT"]["DEVICE"].get<int>());
+  combo.setCurrentIndex(j["input"]["device"].get<int>());
 
 
   /*** left layout ***/

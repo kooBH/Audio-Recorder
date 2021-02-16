@@ -7,3 +7,6 @@
 [submodule "GUI/bin"]
 	path = GUI/bin
 	url = https://github.com/koobh/QtBin
+[submodule "lib/jsonConfig"]
+	path = lib/jsonConfig
+	url = https://github.com/koobh/jsonConfig

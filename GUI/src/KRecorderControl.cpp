@@ -136,7 +136,7 @@
 
       if (ifs.is_open()) {
         json j = json::parse(ifs);
-        scale = j["INPUT"]["SCALE"].get<double>();
+        scale = j["input"]["scale"].get<double>();
         ifs.close();
         LE_scale.setText(QString::number(scale));
       }
@@ -212,8 +212,8 @@
 
     /* Interval ComboBox */
 
-    ConfigParam param(_CONFIG_JSON);
-    sample_rate = param["SAMPLE_RATE"];
+    jsonConfig param(_CONFIG_JSON,"param");
+    sample_rate = param["samplerate"];
 
 
     combo_interval.addItem("5-min");
@@ -311,7 +311,7 @@ QObject::connect(&LE_scale, &QLineEdit::textChanged,
     if (ifs.is_open()) {
 
     json j = json::parse(ifs);
-    j["INPUT"]["SCALE"] = scale;
+    j["input"]["scale"] = scale;
     ifs.close();
 
     std::ofstream ofs(_CONFIG_JSON);
@@ -385,8 +385,8 @@ int KRecorderControl::BuildModule(){
  // spdlog::info("Build Module");
 
   ClearBuild();
-  ConfigParam param(_CONFIG_JSON);
-  ConfigInput input(_CONFIG_JSON);
+  jsonConfig param(_CONFIG_JSON,"param");
+  jsonConfig input(_CONFIG_JSON,"input");
 
   widget_plot.ResetShiftSize();
 
@@ -400,11 +400,11 @@ int KRecorderControl::BuildModule(){
   }
 
   /* Configuration */
-  sample_rate =param["SAMPLE_RATE"];
-  channels = param["CHANNEL"];
-  shift_size = param["SHIFT_SIZE"];
-  frame_size = param["FRAME_SIZE"];
-  device = input.GetDevice();
+  sample_rate =param["samplerate"];
+  channels = param["channel"];
+  shift_size = param["shift_size"];
+  frame_size = param["frame_size"];
+  device = input["device"];
 
   
   printf(" *** BuildModule ***\n");

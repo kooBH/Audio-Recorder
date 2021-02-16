@@ -1,7 +1,7 @@
 #ifndef _H_PARAM_EDIT_
 #define _H_PARAM_EDIT_
 
-#include "Config.h"
+#include "jsonConfig.h"
 #include <QLineEdit>
 #include <QString>
 

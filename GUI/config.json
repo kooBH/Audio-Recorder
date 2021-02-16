@@ -1,13 +1,12 @@
 {
-    "INPUT": {
-        "DEVICE": 5,
-        "INPUT_FILE": "../simple/build/s_6x4_source_1.wav",
-        "REAL_TIME": false,
-        "SCALE": 15.0
+    "input": {
+        "device": 7,
+        "real_time": false,
+        "scale": 15.0
     },
-    "PARAM": {
-        "CHANNEL": {
-            "OPTIONS": [
+    "param": {
+        "channel": {
+            "options": [
                 1,
                 2,
                 3,
@@ -25,28 +24,28 @@
                 15,
                 16
             ],
-            "VALUE": 1
+            "value": 1
         },
-        "FRAME_SIZE": {
-            "OPTIONS": [
+        "frame_size": {
+            "options": [
                 512,
                 1024,
                 2048,
                 4096,
                 8192
             ],
-            "VALUE": 512
+            "value": 512
         },
-        "REFERENCE": {
-            "OPTIONS": [
+        "reference": {
+            "options": [
                 0,
                 1,
                 2
             ],
-            "VALUE": 0
+            "value": 0
         },
-        "SAMPLE_RATE": {
-            "OPTIONS": [
+        "sample_rate": {
+            "options": [
                 8000,
                 11020,
                 16000,
@@ -59,17 +58,17 @@
                 176400,
                 192000
             ],
-            "VALUE": 16000
+            "value": 16000
         },
-        "SHIFT_SIZE": {
-            "OPTIONS": [
+        "shift_size": {
+            "options": [
                 128,
                 256,
                 512,
                 1024,
                 2048
             ],
-            "VALUE": 128
+            "value": 128
         }
     }
 }

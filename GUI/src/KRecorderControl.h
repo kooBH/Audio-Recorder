@@ -20,7 +20,6 @@
 #include "KInput.h" 
 #include "KRecordPlot.h"
 
-#include "Config.h"
 #include "RtInput.h"
 #include "WAV.h"
 

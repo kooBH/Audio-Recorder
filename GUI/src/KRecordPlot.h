@@ -5,9 +5,8 @@
 
 #include <QOpenGLWidget>
 #include <QPen>
-
+#include "jsonConfig.h"
 #include <deque>
-#include "Config.h"
 //#include "KRecordPlot.h"
 class KRecordPlotRec : public QOpenGLWidget
 {

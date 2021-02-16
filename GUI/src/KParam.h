@@ -8,7 +8,7 @@
 #include "ParamComboBox.h"
 #include "ParamLineEdit.h"
 
-#include "Config.h"
+#include "jsonConfig.h"
 
 class KParam : public QWidget{
 
@@ -27,8 +27,8 @@ class KParam : public QWidget{
 
     inline KParam();
     inline ~KParam();
-    inline void AddAlgo(JsonConfig<double> config);
-    inline void AddIntParam(JsonConfig<int> config);
+//    inline void AddAlgo(jsonConfig config);
+   // inline void AddIntParam(jsonConfig config);
    };
 
 inline KParam::KParam(){
@@ -109,7 +109,8 @@ inline KParam::KParam(){
       setLayout(&layout);
 }
 
-inline void KParam::AddAlgo(JsonConfig<double> config){
+/*
+inline void KParam::AddAlgo(JsonConfig config){
       r=0;
       QLabel *temp_title = new QLabel(QString::fromStdString(config.GetName()));
       layout.addWidget(temp_title,r,c,1,1);
@@ -138,8 +139,10 @@ inline void KParam::AddAlgo(JsonConfig<double> config){
       }
       c++;
 }
+*/
 
-inline void KParam::AddIntParam(JsonConfig<int> config){
+/*
+inline void KParam::AddIntParam(JsonConfig config){
       r=0;
       QLabel *temp_title = new QLabel(QString::fromStdString(config.GetName()));
       layout.addWidget(temp_title,r,c,1,1);
@@ -167,7 +170,7 @@ inline void KParam::AddIntParam(JsonConfig<int> config){
       }
       c++;
 }
-
+*/
 KParam::~KParam(){
       for (auto &t : cb) {
         delete std::get<0>(t);

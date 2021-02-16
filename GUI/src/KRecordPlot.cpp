@@ -36,8 +36,8 @@ KRecordPlotRec::KRecordPlotRec(QWidget* parent):QOpenGLWidget(parent){
 }
 
 void KRecordPlotRec::ResetShiftSize(){
-	ConfigParam s("../config.json");
-  shift_size = s["SHIFT_SIZE"];
+	jsonConfig s("../config.json","param");
+  shift_size = s["shift_size"];
   bytes.clear();
 	bytes.resize(shift_size*8);//frame_size * cnt
 	std::fill(bytes.begin(), bytes.end(), 0);

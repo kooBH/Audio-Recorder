@@ -67,6 +67,7 @@ endif()
 
 include(${PATH_LIB}/RtAudioWrapper/RtAudio.cmake)
 include(${PATH_LIB}/RtAudioWrapper/Libsamplerate.cmake)
+include(${PATH_LIB}/jsonConfig/jsonConfig.cmake)
 
 list(APPEND SRC
 	src/main.cpp

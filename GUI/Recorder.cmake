@@ -19,16 +19,10 @@ list(APPEND SRC_Qt
 	${CMAKE_CURRENT_LIST_DIR}/src/KRecordPlot.cpp
 	
 )
-
-list(APPEND SRC
-	${CMAKE_CURRENT_LIST_DIR}/src/JsonConfig.h
-	${CMAKE_CURRENT_LIST_DIR}/src/Config.h
-	)
 	
 list(APPEND INCL
 	${CMAKE_CURRENT_LIST_DIR}/src
 	${CMAKE_CURRENT_LIST_DIR}/lib/serial
-	${CMAKE_CURRENT_LIST_DIR}/../lib/json
 )
 
 include(${CMAKE_CURRENT_LIST_DIR}/lib/serial/serial.cmake)

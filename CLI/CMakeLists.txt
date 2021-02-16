@@ -9,9 +9,9 @@ project(Recorder VERSION 1.0.0 LANGUAGES CXX)
 
 
 
+
 list(APPEND INCL
 	${CMAKE_CURRENT_SOURCE_DIR}/src
-	${CMAKE_CURRENT_SOURCE_DIR}/../lib/json_for_modern_cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/../lib/RtAudioWrapper
 	${CMAKE_CURRENT_SOURCE_DIR}/../lib/WAV
 )
@@ -33,6 +33,7 @@ endif()
 
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/../lib/RtAudioWrapper/RtAudio.cmake)
+include(../lib/jsonConfig/jsonConfig.cmake)
 
 # Build AudioProbe first
 include(${CMAKE_CURRENT_SOURCE_DIR}/../lib/RtAudioWrapper/AudioProbe.cmake)

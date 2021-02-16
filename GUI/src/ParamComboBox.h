@@ -6,7 +6,7 @@
 #include <QComboBox>
 #include <QWidget>
 
-#include "Config.h"
+#include "jsonConfig.h"
 
 using namespace std;
 
