@@ -51,7 +51,7 @@ inline KParam::KParam(){
       }
 
       json j = json::parse(ifs);
-      json param = j["PARAM"];
+      json param = j["param"];
 
       /* Dynamic combobox for PARAM */
       r=0;
@@ -68,13 +68,13 @@ inline KParam::KParam(){
 
 
         /* Iterate on "OPTIONS "*/
-        json options = it.value().at("OPTIONS");
+        json options = it.value().at("options");
         for (auto it2 = options.begin(); it2 != options.end(); ++it2) {
           t2->addItem(QString::fromStdString(std::to_string((int)it2.value()) ));
         }
         /* Set Default iten as in json */
         const int index = t2->findText(QString::fromStdString(
-              std::to_string((int)it.value().at("VALUE")))); 
+              std::to_string((int)it.value().at("value")))); 
         if(index >= 0) 
           t2->setCurrentIndex(index);
 
