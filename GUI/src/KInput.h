@@ -273,7 +273,7 @@ inline  KInput::KInput() :
       json jj = json::parse(ifs);
       ifs.close();
 
-      jj["INPUT"]["DEVICE"] =std::stoi(mid_num_str(item.toStdString())) ;
+      jj["input"]["device"] =std::stoi(mid_num_str(item.toStdString())) ;
       std::ofstream ofs(_CONFIG_JSON);
       ofs << jj.dump(4);
       ofs.close();

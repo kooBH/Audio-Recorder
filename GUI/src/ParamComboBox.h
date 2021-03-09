@@ -27,7 +27,7 @@ class ParamComboBox : public QComboBox {
 #endif
           std::ifstream ifs(file_path);
           json j = json::parse(ifs);
-          j["PARAM"][key]["VALUE"] = stoi(item.toStdString());
+          j["param"][key]["value"] = stoi(item.toStdString());
           std::ofstream ofs(file_path);
           ofs << j.dump(4);
           ofs.close();
