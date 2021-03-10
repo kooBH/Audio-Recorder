@@ -41,8 +41,8 @@ void KRecorder::SlotToggleRecording() {
  emit(SignalToggleRecording());
 }
 
-void KRecorder::SlotReturnFilePath(QString path) {
-  emit(SignalRecordFinished(path));
+void KRecorder::SlotReturnFilePath(QString path,double chrono_elapsed) {
+  emit(SignalRecordFinished(path,chrono_elapsed));
 }
 
   

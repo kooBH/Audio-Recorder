@@ -27,12 +27,12 @@ public :
 
   public slots:
   void SlotToggleRecording();
-  void SlotReturnFilePath(QString path);
+  void SlotReturnFilePath(QString path,double elapsed);
 
 
 signals:
   void SignalToggleRecording();
-  void SignalRecordFinished(QString flle_path);
+  void SignalRecordFinished(QString flle_path,double elapsed);
 
 };
 

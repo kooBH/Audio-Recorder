@@ -475,7 +475,7 @@ void KRecorderControl::StartRecord() {
         rec_thread->join();
         delete rec_thread;
 
-        emit(SignalReturnFilePath(QString(file_name)));
+        emit(SignalReturnFilePath(QString(file_name),chrono_elapsed.count()));
       }
       /* Start Recording */
       else {

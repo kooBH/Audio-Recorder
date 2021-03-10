@@ -210,7 +210,7 @@ signals:
   void SignalStopTimer();
   void SignalRefreshTimer();
   void SignalStartRecord();
-  void SignalReturnFilePath(QString path);
+  void SignalReturnFilePath(QString path,double elapsed);
 
   public:
 #if _WIN32
