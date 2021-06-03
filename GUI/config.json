@@ -1,6 +1,6 @@
 {
     "input": {
-        "device": 7,
+        "device": 6,
         "real_time": false,
         "scale": 15.0
     },
@@ -24,7 +24,7 @@
                 15,
                 16
             ],
-            "value": 1
+            "value": 3
         },
         "frame_size": {
             "options": [
@@ -44,7 +44,7 @@
             ],
             "value": 0
         },
-        "sample_rate": {
+        "samplerate": {
             "options": [
                 8000,
                 11020,

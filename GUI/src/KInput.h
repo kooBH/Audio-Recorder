@@ -61,6 +61,7 @@ class  KInput : public QWidget{
     QString text_device;	
 
     QHBoxLayout serial_btn_layout;
+    QLabel label_gain_port;
     QPushButton btn_serial_reprobe;
     QPushButton btn_setgain;
     map<string,unsigned int> map_serial_device;
@@ -161,6 +162,7 @@ class  KInput : public QWidget{
 inline  KInput::KInput() :
   btn_reprobe("Audio Probe"),
   btn_serial_reprobe("Search Ports"),
+  label_gain_port("AMEMS Port"),
   btn_setgain("SetGain"),
   label_all_ch("all by one"),
   all_in_one(true)
@@ -211,6 +213,7 @@ inline  KInput::KInput() :
   left_layout.addWidget(&combo);
 
   /* Serial Probe */
+  layout_serial.addWidget(&label_gain_port);
   layout_serial.addWidget(&combo_serial);
   layout_serial.addWidget(&label_all_ch);
   layout_serial.addWidget(&check_all_ch);

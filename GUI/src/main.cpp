@@ -30,8 +30,8 @@ int main(int argc, char* argv[]){
 
 
 #ifdef _WIN32
-	ShowWindow(::GetConsoleWindow(), SW_HIDE);
-  //ShowWindow(::GetConsoleWindow(), SW_SHOW);
+	//ShowWindow(::GetConsoleWindow(), SW_HIDE);
+  ShowWindow(::GetConsoleWindow(), SW_SHOW);
 #endif
 	
 /*

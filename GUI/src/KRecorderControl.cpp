@@ -19,10 +19,12 @@
   label_time("Sec"),
   label_split_wav("split wav"),
   label_log("logging"),
+  label_odd("odd"),
 
   LE_timer("5.0"),
   isRecording(false),
   isInited(false),
+  do_odd(false),
   record_time(5.0),
   rec_mode(MANUAL),
   wait_thread(nullptr){
@@ -149,15 +151,21 @@
 
       out = new WAV*[max_ch];
       //// split
-      layout_split_wav.addWidget(&label_split_wav);
-      layout_split_wav.addWidget(&check_split_wav);
+      layout_options.addWidget(&label_split_wav);
+      layout_options.addWidget(&check_split_wav);
       do_split_wav = default_split;
       check_split_wav.setChecked(default_split);
       //log
-      layout_split_wav.addWidget(&label_log);
-      layout_split_wav.addWidget(&check_log);
+      layout_options.addWidget(&label_log);
+      layout_options.addWidget(&check_log);
       check_log.setChecked(true);
-      layout_recorder.addLayout(&layout_split_wav);
+
+      // odd channels only 
+      layout_options.addWidget(&label_odd);
+      layout_options.addWidget(&check_odd);
+
+      layout_recorder.addLayout(&layout_options);
+
 
       // record btn
       layout_recorder.addWidget(&btn_record);
@@ -328,6 +336,7 @@ QObject::connect(&check_split_wav, &QCheckBox::stateChanged,
     switch (state) {
     case 2:
     do_split_wav = true;
+    check_odd.setChecked(false);
     break;
     case 0:
     do_split_wav = false;
@@ -335,6 +344,21 @@ QObject::connect(&check_split_wav, &QCheckBox::stateChanged,
     }
     }
     );
+
+QObject::connect(&check_odd, &QCheckBox::stateChanged,
+  [&](int state) {
+    // 0 or 2
+    switch (state) {
+    case 2:
+      do_odd = true;
+      check_split_wav.setChecked(false);
+      break;
+    case 0:
+      do_odd = false;
+      break;
+    }
+  }
+);
 
 //QObject::connect(&timer, &QTimer::timeout, this, &KRecorderControl::SetTime);
 QObject::connect(this, &KRecorderControl::SignalStopTimer, this, &KRecorderControl::StopTimer);
@@ -406,6 +430,8 @@ int KRecorderControl::BuildModule(){
   frame_size = param["frame_size"];
   device = input["device"];
 
+  odd_channels = int((channels + 1) / 2);
+
   
   printf(" *** BuildModule ***\n");
   printf("samplerate : %d\n", sample_rate);
@@ -426,12 +452,16 @@ int KRecorderControl::BuildModule(){
         );
     return -1;
   }
-  if(!do_split_wav)
-    out[0] = new WAV(channels, sample_rate);
-  else {
+  if(do_split_wav){
     for (int i = 0; i < channels; i++) {
       out[i] = new WAV(1, sample_rate);
     }
+  }
+  else if (do_odd) {
+    out[0] = new WAV(odd_channels, sample_rate);
+  }
+  else {
+    out[0] = new WAV(channels, sample_rate);
   }
   /* build split buffer */
   buf_split = new short* [channels];
@@ -599,23 +629,42 @@ void KRecorderControl::Recording() {
       }
       widget_plot.DrawPlot(temp_plot);
 
+      /*
+      1 1 -> 1 0
+      2 1 -> 1 1
+      3 2 -> 2 1 
+      4 2 -> 2 2
+      5 3 -> 3 2
+      6 3 -> 3 3
+      */
+
       /* input scaleing */
-      if (!do_split_wav) {
-        if (scale != 1)
-          for (int i = 0; i < shift_size * channels; i++) {
-            temp[i] = static_cast<short>(scale * temp[i]);
-          }
-        out[0]->Append(temp, shift_size * channels);
-      }
+      if (scale != 1)
+        for (int i = 0; i < shift_size * channels; i++) {
+          temp[i] = static_cast<short>(scale * temp[i]);
+        }
       // split wav
-      else {
-        if (scale != 1)
+      if (do_split_wav) {
           for (int i = 0; i < shift_size * channels; i++) {
-            temp[i] = static_cast<short>(scale*temp[i]);
             buf_split[i % channels][i / channels] = temp[i];
           }
         for (int i = 0; i < channels; i++)
           out[i]->Append(buf_split[i], shift_size);
+      }
+      // use odd only
+      else if (do_odd) {
+        for (int i = 0; i < shift_size; i++) {
+          for (int j = 0; 2 * j < channels; j++) {
+            temp[j + i * odd_channels] = static_cast<short>(temp[2 * j + i * channels]);
+          }
+          
+        }
+        out[0]->Append(temp, shift_size * int((channels+1)/2));
+      }
+      // default
+      else {
+
+        out[0]->Append(temp, shift_size * channels);
       }
     }
     else
@@ -750,16 +799,26 @@ void KRecorderControl::IntervalRecording(int stock){
       widget_plot.DrawPlot(temp_plot);
 
       /* input scaleing */
+      if (scale != 1)
+        for (int i = 0; i < shift_size * channels; i++) {
+          temp[i] = static_cast<short>(scale * temp[i]);
+        }
+
+      // split wav for each channels
       if (!do_split_wav) {
-        if (scale != 1)
-          for (int i = 0; i < shift_size * channels; i++)
-            temp[i] *= scale;
         out[0]->Append(temp, shift_size * channels);
       }
+      // use odd only
+      else if (do_odd) {
+        for (int i = 0; i < shift_size; i++) {
+          for (int j = 0; 2 * j < channels; j++) {
+            temp[j + i * odd_channels] = static_cast<short>(temp[2 * j + i * channels]);
+          }
+        }
+        out[0]->Append(temp, shift_size * int((channels+1)/2));
+      }
       else {
-        if (scale != 1)
           for (int i = 0; i < shift_size * channels; i++) {
-            temp[i] *= scale;
             buf_split[i % channels][i / channels] = temp[i];
           }
         for(int i=0;i<channels;i++)

@@ -98,13 +98,18 @@ class KRecorderControl : public QWidget{
     double scale;
 
     /* output splitting */
-    QHBoxLayout layout_split_wav;
+    QHBoxLayout layout_options;
     QLabel label_split_wav;
     QCheckBox check_split_wav;
     QLabel label_log;
     QCheckBox check_log;
+    QLabel label_odd;
+    QCheckBox check_odd;
+
     bool do_split_wav;
     short** buf_split;
+    bool do_odd;
+    int odd_channels;
 
   QPushButton btn_record;
   QLabel label_time;

@@ -1,6 +1,10 @@
 #include "KRecorder.h"
 
 KRecorder::KRecorder() :QWidget() {
+  // disable window maximization
+  this->setMaximumSize(QSize(400, 580));
+
+  this->setWindowFlags(Qt::WindowTitleHint |Qt::WindowCloseButtonHint);
   widget_tab.setFixedSize(QSize(400, 580));
   widget_tab.addTab(&widget_recorder, "Recorder");
   widget_tab.addTab(&widget_input, "Input");
@@ -24,6 +28,8 @@ KRecorder::KRecorder() :QWidget() {
       QPushButton:disabled{color:gray;}\
       QComboBox:disabled{color:gray;}\
       QTextBrowser:disabled{color:gray;}\
+      QCheckBox:indicator{background:rgb(210, 53, 50);border: 1px solid;}\
+      QCheckBox:indicator:checked{background:rgb(79,214,130); border: 1px solid;}\
       \
       ");
 
