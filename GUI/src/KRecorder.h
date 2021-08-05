@@ -7,7 +7,7 @@
 
 #include "KRecorderControl.h"
 #include "KParam.h"
-#include "KInput.h"
+//#include "KInput.h"
 
 class KRecorder : public QWidget {
   Q_OBJECT
