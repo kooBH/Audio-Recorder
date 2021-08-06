@@ -29,6 +29,10 @@ then, if you are in Ubuntu, there will be ```Makefile``` or if you are in Window
 + ubuntu 20.04 LTS : 64-bit   
 + Windows 10 : 64-bit  
 
+## log  
++ wav plot displays properly, but output is all zero.  
+=>  scale factor was too large (15e183) 
+ 
 ## Notice
 |NAME|LICENSE|USEAGE|
 |---|---|---|
