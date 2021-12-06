@@ -2,8 +2,10 @@
 #define _H_K_RECORDER_
 
 #include <QWidget>
-//#include <QScreen>
+#include <QScreen>
 #include <QTabWidget>
+#include <QApplication>
+#include <QGuiApplication>
 
 #include "KRecorderControl.h"
 #include "KParam.h"

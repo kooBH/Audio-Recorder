@@ -13,10 +13,11 @@ KRecorder::KRecorder() :QWidget() {
   setLayout(&layout_main);
 
   /* Start at Right Top Corner */
-  // QSize size = widget_main.sizeHint();
-  // QRect rec = QApplication::desktop()->screenGeometry();
-  // int width = rec.width();
-  // widget_main.move(width - size.width(), 0);
+   QScreen* screen = QGuiApplication::primaryScreen();
+   QRect  screenGeometry = screen->geometry();
+   QSize size = this->sizeHint();
+   int width = screenGeometry.width();
+   this->move(width - size.width(), 0);
 
   setStyleSheet("\
       QWidget{background:rgb(226, 228, 175);}\
