@@ -1,6 +1,11 @@
 # Audio-Recorder
 
-## Status  
+## Release
+[v3.18 for Windows x64](https://drive.google.com/file/d/1azfhBUI2w7pWoccManPV8AYByTL4aujn/view?usp=sharing)  
+[prerequsites](https://drive.google.com/drive/folders/1Lmk2U6LRkfHrNPbzh9A4GqUlnlBc-9yk?usp=sharing)  
+
+   
+## Status   
 GUI : for Windows only, need to adjust.      
 ![GUI](doc/Recorder.png)
 CLI : done
