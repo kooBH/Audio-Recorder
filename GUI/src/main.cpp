@@ -28,10 +28,9 @@ int main(int argc, char* argv[]){
 
   recorder.show();
 
-
 #ifdef _WIN32
-	//ShowWindow(::GetConsoleWindow(), SW_HIDE);
-  ShowWindow(::GetConsoleWindow(), SW_SHOW);
+	ShowWindow(::GetConsoleWindow(), SW_HIDE);
+ // ShowWindow(::GetConsoleWindow(), SW_SHOW);
 #endif
 	
 /*

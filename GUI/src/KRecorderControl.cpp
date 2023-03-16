@@ -24,7 +24,6 @@
   LE_timer("5.0"),
   isRecording(false),
   isInited(false),
-  do_odd(false),
   record_time(5.0),
   rec_mode(MANUAL),
   wait_thread(nullptr){
@@ -139,8 +138,12 @@
       if (ifs.is_open()) {
         json j = json::parse(ifs);
         scale = j["input"]["scale"].get<double>();
+        do_odd = j["input"]["odd"].get<bool>();
         ifs.close();
+
         LE_scale.setText(QString::number(scale));
+
+        check_odd.setChecked(do_odd);
       }
       else{
         LE_scale.setText("1.0");
@@ -332,18 +335,20 @@ QObject::connect(&LE_scale, &QLineEdit::textChanged,
 
 QObject::connect(&check_split_wav, &QCheckBox::stateChanged,
     [&](int state) {
-    // 0 or 2
-    switch (state) {
-    case 2:
-    do_split_wav = true;
-    check_odd.setChecked(false);
-    break;
-    case 0:
-    do_split_wav = false;
-    break;
+      // 0 or 2
+      switch (state) {
+        case 2:
+        do_split_wav = true;
+        check_odd.setChecked(false);
+
+
+        break;
+        case 0:
+        do_split_wav = false;
+        break;
+      }
     }
-    }
-    );
+);
 
 QObject::connect(&check_odd, &QCheckBox::stateChanged,
   [&](int state) {
@@ -357,6 +362,19 @@ QObject::connect(&check_odd, &QCheckBox::stateChanged,
       do_odd = false;
       break;
     }
+
+      std::ifstream ifs(_CONFIG_JSON);
+      if(ifs.is_open()) {
+
+        json j = json::parse(ifs);
+        j["input"]["odd"] = do_odd;
+        ifs.close();
+
+        std::ofstream ofs(_CONFIG_JSON);
+        ofs << j.dump(4);
+        ofs.close();
+      }
+
   }
 );
 

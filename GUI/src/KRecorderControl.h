@@ -1,7 +1,6 @@
 #ifndef _H_K_RECORDER_CONTROL_
 #define _H_K_RECORDER_CONTROL_
 
-
 #define MAX_FILE_BUF 1024
 
 #include <QHBoxLayout>
@@ -55,7 +54,6 @@ class KRecorderControl : public QWidget{
     KRecordPlotRec widget_plot;
     
   QWidget widget_recorder;
-
 
   QVBoxLayout layout_recorder;
   QHBoxLayout  layout_plot_control;
@@ -196,7 +194,6 @@ const QString text_record = "Record";
   /*AfterProcess of Wav file*/
   void AfterFinish();
 
- 
   //QSystemTrayIcon* trayIcon;
 #if _WIN32
   std::thread* thread_key;
