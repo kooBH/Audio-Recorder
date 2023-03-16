@@ -1,9 +1,9 @@
 # Audio-Recorder
 
 ## Release
-[v3.18 for Windows x64](https://drive.google.com/file/d/1azfhBUI2w7pWoccManPV8AYByTL4aujn/view?usp=sharing)  
-[prerequsites](https://drive.google.com/drive/folders/1Lmk2U6LRkfHrNPbzh9A4GqUlnlBc-9yk?usp=sharing)  
-
+[v3.19 for Windows x64](https://drive.google.com/file/d/1c0j-6CEIId3ap8BVkgtD-DGBj0h3p_Gs/view?usp=sharing)      
+[prerequsites](https://drive.google.com/drive/folders/1Lmk2U6LRkfHrNPbzh9A4GqUlnlBc-9yk?usp=sharing)      
+[MEMS 및 녹음프로그램 메뉴얼](https://docs.google.com/document/d/1bU2l6bipMt-IezbR00lmAWUkCuw_twWNZXcia8pNJNI/edit?usp=sharing)  
    
 ## Status   
 GUI : for Windows only, need to adjust.      
