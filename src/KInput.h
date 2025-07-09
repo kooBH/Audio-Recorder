@@ -483,14 +483,15 @@ inline void KInput::serialprobe(){
   int i = 0;
   while (iter != devices_found.end()) {
     serial::PortInfo device = *iter++;
-    if (strcmp("n/a", device.hardware_id.c_str())){
+    //if (strcmp("n/a", device.hardware_id.c_str())){
+    {
       map_serial_device.insert(make_pair(device.port.c_str(), i));
       i++;
       text_device.append("\nPort = ");
       text_device.append(QString::fromStdString(device.port.c_str())); 
-      text_device.append("\ndescription = ");
+      text_device.append("\nDescription = ");
       text_device.append(QString::fromStdString(device.description.c_str())); 
-      text_device.append("\nhardware ID = ");
+      text_device.append("\nHardware ID = ");
       text_device.append(QString::fromStdString(device.hardware_id.c_str()));
       text_device.append("\n"); 
       /*

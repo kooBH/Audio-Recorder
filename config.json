@@ -1,6 +1,6 @@
 {
     "input": {
-        "device": 1,
+        "device": 8,
         "odd": false,
         "real_time": false,
         "scale": 15.0
@@ -25,7 +25,7 @@
                 15,
                 16
             ],
-            "value": 2
+            "value": 1
         },
         "frame_size": {
             "options": [
@@ -59,7 +59,7 @@
                 176400,
                 192000
             ],
-            "value": 48000
+            "value": 16000
         },
         "shift_size": {
             "options": [

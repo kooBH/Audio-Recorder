@@ -11,9 +11,11 @@
 class KRecordPlotRec : public QOpenGLWidget
 {
 	Q_OBJECT
+private : 
 
+	const double alpha = 1e-2;
   //default 32768
-  const int scale_plot = 2000;
+  const double scale_plot = 32768.0;
 
 	int BAR_MAX_POINTS = 120;
 	int BAR_MIN_POINTS = 3;
@@ -33,7 +35,7 @@ class KRecordPlotRec : public QOpenGLWidget
   int shift_size;
 
 public:
-	QPen middleLine;
+	QPen plotLine,clippingLine;
 	KRecordPlotRec(QWidget* parent=nullptr);
 	~KRecordPlotRec();
 	void DrawPlot(short* raw);
@@ -49,6 +51,9 @@ public:
 	std::vector<std::vector<short> > peak_min_buffer;
 
   void ResetShiftSize();
+
+signals:
+	void signal_update_status(QString text);
 };
 
 #endif

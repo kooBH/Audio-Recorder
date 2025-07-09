@@ -206,6 +206,7 @@ public slots:
   void StopTimer();
   void StartRecord();
   void SlotToggleRecordnig();
+  void SlotUpdateStatus(QString);
 
 signals:
 	/* Should not Stop Timer from another thread. */

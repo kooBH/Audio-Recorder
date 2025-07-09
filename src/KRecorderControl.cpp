@@ -193,6 +193,8 @@
         label_ch_plot.setText(QString::number(ch_plot+1));
         }
         );
+    QObject::connect(&widget_plot, &KRecordPlotRec::signal_update_status, this, &KRecorderControl::SlotUpdateStatus);
+
     /* Mode ComboBox */
     combo_mode.addItem("Manual");
     combo_mode.addItem("Timer");
@@ -963,4 +965,8 @@ void KRecorderControl::SlotToggleRecordnig(){
   if (!isRecording)
     BuildModule();
   emit(SignalStartRecord());
+}
+
+void KRecorderControl::SlotUpdateStatus(QString text) {
+  label_status.setText(text);
 }

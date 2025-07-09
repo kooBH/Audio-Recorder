@@ -1,5 +1,4 @@
-# CMAKE version of Ubuntu 16.04 is 3.5.
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 project(Recorder)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -12,7 +11,7 @@ set(SRC_Qt_MOC)
 set(SRC_Qt)
 set(INCL)
 
-set(PATH_LIB ../lib)
+set(PATH_LIB ${CMAKE_CURRENT_LIST_DIR}/lib)
 
 macro(display_elements
 	DISPLAY_MESSAGE

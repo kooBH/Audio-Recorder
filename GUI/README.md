@@ -1,1 +1,0 @@
-![Recorder](../doc/Recorder.png)

@@ -5,7 +5,7 @@
 	path = lib/WAV
 	url = https://github.com/koobh/WAV
 [submodule "GUI/bin"]
-	path = GUI/bin
+	path = bin
 	url = https://github.com/koobh/QtBin
 [submodule "lib/jsonConfig"]
 	path = lib/jsonConfig
