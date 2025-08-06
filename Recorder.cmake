@@ -9,6 +9,7 @@ list(APPEND SRC_Qt_MOC
 	${CMAKE_CURRENT_LIST_DIR}/src/KRecordPlot.h
 	${CMAKE_CURRENT_LIST_DIR}/src/KRecorderControl.h
 	${CMAKE_CURRENT_LIST_DIR}/src/KRecorder.h
+	${CMAKE_CURRENT_LIST_DIR}/src/WidgetPort.h
 )
 
 list(APPEND SRC_Qt
@@ -17,6 +18,7 @@ list(APPEND SRC_Qt
 	${CMAKE_CURRENT_LIST_DIR}/src/KRecorder.cpp
 	${CMAKE_CURRENT_LIST_DIR}/src/KRecorderControl.cpp
 	${CMAKE_CURRENT_LIST_DIR}/src/KRecordPlot.cpp
+	${CMAKE_CURRENT_LIST_DIR}/src/WidgetPort.cpp
 	
 )
 	

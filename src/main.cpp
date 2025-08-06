@@ -21,6 +21,9 @@ int main(int argc, char* argv[]){
 
   QApplication app(argc,argv);
 
+  QCoreApplication::setApplicationName("Recorder 3.21");
+  QCoreApplication::setApplicationVersion("3.21.0");
+
   printf("Loading....\n");
   KRecorder recorder;
 

@@ -17,9 +17,9 @@
   label_timer("Timer[sec]"),
   label_interval("Interval"),
   label_time("Sec"),
-  label_split_wav("split wav"),
+  label_split_wav("Split"),
   label_log("logging"),
-  label_odd("odd"),
+  label_odd("Odd only"),
 
   LE_timer("5.0"),
   isRecording(false),
@@ -161,7 +161,7 @@
       //log
       layout_options.addWidget(&label_log);
       layout_options.addWidget(&check_log);
-      check_log.setChecked(true);
+      check_log.setChecked(false);
 
       // odd channels only 
       layout_options.addWidget(&label_odd);
@@ -190,7 +190,7 @@
         ch_plot++;
         if (ch_plot >= channels)
         ch_plot = 0;
-        label_ch_plot.setText(QString::number(ch_plot+1));
+        label_ch_plot.setText(QString::number(ch_plot + 1));
         }
         );
     QObject::connect(&widget_plot, &KRecordPlotRec::signal_update_status, this, &KRecorderControl::SlotUpdateStatus);
@@ -446,8 +446,7 @@ int KRecorderControl::BuildModule(){
   /* Configuration */
   sample_rate =param["samplerate"];
   channels = param["channel"];
-  shift_size = param["shift_size"];
-  frame_size = param["frame_size"];
+  buffer_size = param["buffer_size"];
   device = input["device"];
 
   odd_channels = int((channels + 1) / 2);
@@ -456,13 +455,13 @@ int KRecorderControl::BuildModule(){
   printf(" *** BuildModule ***\n");
   printf("samplerate : %d\n", sample_rate);
   printf("channels   : %d\n", channels);
-  printf("shift_size : %d\n", shift_size);
+  printf("buffer_size : %d\n", buffer_size);
   printf("device     : %d\n", device);
     
-  temp = new short[channels * shift_size];
-  temp_plot = new short[shift_size*4];
+  temp = new short[channels * buffer_size];
+  temp_plot = new short[buffer_size*4];
   try {
-    rt = new RtInput(device, channels, sample_rate, shift_size, frame_size);
+    rt = new RtInput(device, channels, sample_rate, buffer_size,buffer_size);
   }
   catch (std::runtime_error& e) {
     QMessageBox::critical(
@@ -486,7 +485,7 @@ int KRecorderControl::BuildModule(){
   /* build split buffer */
   buf_split = new short* [channels];
   for (int i = 0; i < channels; i++)
-    buf_split[i] = new short[shift_size];
+    buf_split[i] = new short[buffer_size];
 
   isInited = true;
   if(!interactLock)
@@ -638,14 +637,14 @@ void KRecorderControl::StartRecord() {
 
 void KRecorderControl::Recording() {
   while (rt->IsRunning()) {
-    if (rt->data.stock.load() >= shift_size) {
+    if (rt->data.stock.load() >= buffer_size) {
       emit(SignalRefreshTimer());
       rt->GetBuffer(temp);
-      for (int i = 0; i < shift_size * 3; i++) {
-        temp_plot[i] = temp_plot[i + shift_size];
+      for (int i = 0; i < buffer_size * 3; i++) {
+        temp_plot[i] = temp_plot[i + buffer_size];
       }
-      for (int i = 0; i < shift_size; i++) {
-        temp_plot[i + shift_size * 3] = temp[i * channels + ch_plot];
+      for (int i = 0; i < buffer_size; i++) {
+        temp_plot[i + buffer_size * 3] = temp[i * channels + ch_plot];
       }
       widget_plot.DrawPlot(temp_plot);
 
@@ -660,31 +659,31 @@ void KRecorderControl::Recording() {
 
       /* input scaleing */
       if (scale != 1)
-        for (int i = 0; i < shift_size * channels; i++) {
+        for (int i = 0; i < buffer_size * channels; i++) {
           temp[i] = static_cast<short>(scale * temp[i]);
         }
       // split wav
       if (do_split_wav) {
-          for (int i = 0; i < shift_size * channels; i++) {
+          for (int i = 0; i < buffer_size * channels; i++) {
             buf_split[i % channels][i / channels] = temp[i];
           }
         for (int i = 0; i < channels; i++)
-          out[i]->Append(buf_split[i], shift_size);
+          out[i]->Append(buf_split[i], buffer_size);
       }
       // use odd only
       else if (do_odd) {
-        for (int i = 0; i < shift_size; i++) {
+        for (int i = 0; i < buffer_size; i++) {
           for (int j = 0; 2 * j < channels; j++) {
             temp[j + i * odd_channels] = static_cast<short>(temp[2 * j + i * channels]);
           }
           
         }
-        out[0]->Append(temp, shift_size * int((channels+1)/2));
+        out[0]->Append(temp, buffer_size * int((channels+1)/2));
       }
       // default
       else {
 
-        out[0]->Append(temp, shift_size * channels);
+        out[0]->Append(temp, buffer_size * channels);
       }
     }
     else
@@ -800,49 +799,49 @@ void KRecorderControl::IntervalRecording(int stock){
   long long elap =0;
 
   while (rt->IsRunning()) {
-    if (rt->data.stock >= shift_size) {
+    if (rt->data.stock >= buffer_size) {
       emit(SignalRefreshTimer());
       // cut audio input for every given second  
-      elap += shift_size;
+      elap += buffer_size;
       //std:cout << elap << std::endl;;
 
       // TODO... todo what? 
       rt->GetBuffer(temp);
 
       /* Plot */
-      for (int i = 0; i < shift_size * 3; i++) {
-        temp_plot[i] = temp_plot[i + shift_size];
+      for (int i = 0; i < buffer_size * 3; i++) {
+        temp_plot[i] = temp_plot[i + buffer_size];
       }
-      for (int i = 0; i < shift_size; i++) {
-        temp_plot[i + shift_size * 3] = temp[i * channels + ch_plot];
+      for (int i = 0; i < buffer_size; i++) {
+        temp_plot[i + buffer_size * 3] = temp[i * channels + ch_plot];
       }
       widget_plot.DrawPlot(temp_plot);
 
       /* input scaleing */
       if (scale != 1)
-        for (int i = 0; i < shift_size * channels; i++) {
+        for (int i = 0; i < buffer_size * channels; i++) {
           temp[i] = static_cast<short>(scale * temp[i]);
         }
 
       // split wav for each channels
       if (!do_split_wav) {
-        out[0]->Append(temp, shift_size * channels);
+        out[0]->Append(temp, buffer_size * channels);
       }
       // use odd only
       else if (do_odd) {
-        for (int i = 0; i < shift_size; i++) {
+        for (int i = 0; i < buffer_size; i++) {
           for (int j = 0; 2 * j < channels; j++) {
             temp[j + i * odd_channels] = static_cast<short>(temp[2 * j + i * channels]);
           }
         }
-        out[0]->Append(temp, shift_size * int((channels+1)/2));
+        out[0]->Append(temp, buffer_size * int((channels+1)/2));
       }
       else {
-          for (int i = 0; i < shift_size * channels; i++) {
+          for (int i = 0; i < buffer_size * channels; i++) {
             buf_split[i % channels][i / channels] = temp[i];
           }
         for(int i=0;i<channels;i++)
-          out[i]->Append(buf_split[i], shift_size);
+          out[i]->Append(buf_split[i], buffer_size);
       }
 
       if (elap >= stock) {

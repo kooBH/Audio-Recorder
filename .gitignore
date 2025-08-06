@@ -26,3 +26,7 @@ x64
 
 #  output
 *.wav
+
+*.zip
+Recorder_*
+*.pdf

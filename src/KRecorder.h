@@ -9,16 +9,21 @@
 
 #include "KRecorderControl.h"
 #include "KParam.h"
+#include "WidgetPort.h"
 //#include "KInput.h"
 
 class KRecorder : public QWidget {
   Q_OBJECT
   private:
-    QHBoxLayout layout_main;
+    QVBoxLayout layout_main;
     QTabWidget widget_tab;
     KRecorderControl widget_recorder;
     KInput widget_input;
     KParam widget_param;
+    WidgetPort widget_port;
+
+    QHBoxLayout layout_footer;
+    QLabel label_footer;
 
     bool isRecording;
 

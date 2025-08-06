@@ -131,8 +131,7 @@ class KRecorderControl : public QWidget{
 const QString text_record = "Record";
 #endif
 
-  int shift_size;
-  int frame_size;//unused
+  int buffer_size;
 
   int sample_rate;
   int channels;

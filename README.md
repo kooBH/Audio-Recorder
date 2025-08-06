@@ -2,12 +2,13 @@
 
 Audio recorder for multi-channel mic array.  
 
-[v3.20 for Windows x64](https://drive.google.com/file/d/1Y4RpUYlp_b_RwfSBZGkKZ2jWyXNnGY2B/view?usp=sharing)      
+[Latest version for Windows x64](https://drive.google.com/file/d/1Y4RpUYlp_b_RwfSBZGkKZ2jWyXNnGY2B/view?usp=sharing
+)      
   
 ![GUI](doc/Recorder.png)
 
 ## Resources
-[prerequsites](https://drive.google.com/drive/folders/1Lmk2U6LRkfHrNPbzh9A4GqUlnlBc-9yk?usp=sharing)      
+[prerequsites for miniDSP mic array](https://drive.google.com/drive/folders/1Lmk2U6LRkfHrNPbzh9A4GqUlnlBc-9yk?usp=sharing)      
 [MEMS 및 녹음프로그램 메뉴얼](https://docs.google.com/document/d/1bU2l6bipMt-IezbR00lmAWUkCuw_twWNZXcia8pNJNI/edit?usp=sharing)  
  
 ## Notice
